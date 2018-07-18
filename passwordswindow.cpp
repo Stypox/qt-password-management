@@ -2,13 +2,10 @@
 #include "ui_passwordswindow.h"
 
 PasswordsWindow::PasswordsWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::PasswordsWindow)
-{
+    QMainWindow(parent), ui(new Ui::PasswordsWindow) {
     ui->setupUi(this);
 }
 
-PasswordsWindow::~PasswordsWindow()
-{
+PasswordsWindow::~PasswordsWindow() {
     delete ui;
 }

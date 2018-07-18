@@ -7,8 +7,7 @@ namespace Ui {
 class PasswordsWindow;
 }
 
-class PasswordsWindow : public QMainWindow
-{
+class PasswordsWindow : public QMainWindow {
     Q_OBJECT
 
 public:

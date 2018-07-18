@@ -25,13 +25,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        passwordswindow.cpp
+        passwordswindow.cpp \
+    simplecrypt/simplecrypt.cpp \
+    passwordwidget.cpp \
+    passwordstructure.cpp \
+    logindialog.cpp
 
 HEADERS += \
-        passwordswindow.h
+        passwordswindow.h \
+    simplecrypt/simplecrypt.h \
+    passwordwidget.h \
+    passwordstructure.h \
+    logindialog.h
 
 FORMS += \
-        passwordswindow.ui
+        passwordswindow.ui \
+    logindialog.ui
 
 CONFIG += mobility
 MOBILITY = 
