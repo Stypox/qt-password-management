@@ -2,24 +2,24 @@
 #define PASSWORDWIDGET_H
 #include <QObject>
 #include <QWidget>
-#include "passwordstructure.h"
+#include "password.h"
 
 
 class PasswordWidget : public QWidget {
     Q_OBJECT
 public:
-    PasswordWidget(int listIndex, PasswordStructure password);
+    PasswordWidget(const int& listIndex, Password& password);
 
 private slots:
     void setLittle();
     void setBig();
 
 signals:
-    void edit(int listIndex);
+    void edit(const int& listIndex);
 
 private:
     int m_listIndex;
-    PasswordStructure m_password;
+    Password& m_password;
 };
 
 #endif // PASSWORDWIDGET_H

@@ -2,9 +2,9 @@
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    PasswordsWindow w;
-    w.show();
+    QApplication app {argc, argv};
+    PasswordsWindow passwordsWindow {};
+    passwordsWindow.show();
 
-    return a.exec();
+    return app.exec();
 }

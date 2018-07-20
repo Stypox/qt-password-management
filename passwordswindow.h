@@ -2,6 +2,10 @@
 #define PASSWORDSWINDOW_H
 
 #include <QMainWindow>
+#include <QVector>
+#include "logindialog.h"
+#include "settings.h"
+#include "password.h"
 
 namespace Ui {
 class PasswordsWindow;
@@ -15,7 +19,9 @@ public:
     ~PasswordsWindow();
 
 private:
-    Ui::PasswordsWindow *ui;
+    Ui::PasswordsWindow* ui;
+    Settings m_settings;
+    QVector<Password> m_passwords;
 };
 
 #endif // PASSWORDSWINDOW_H

@@ -28,19 +28,34 @@ SOURCES += \
         passwordswindow.cpp \
     simplecrypt/simplecrypt.cpp \
     passwordwidget.cpp \
-    passwordstructure.cpp \
-    logindialog.cpp
+    logindialog.cpp \
+    addeditdialog.cpp \
+    helpdialog.cpp \
+    settingsdialog.cpp \
+    pwneddialog.cpp \
+    settings.cpp \
+    password.cpp
 
 HEADERS += \
         passwordswindow.h \
     simplecrypt/simplecrypt.h \
     passwordwidget.h \
-    passwordstructure.h \
-    logindialog.h
+    logindialog.h \
+    addeditdialog.h \
+    helpdialog.h \
+    settingsdialog.h \
+    pwneddialog.h \
+    resources.h \
+    settings.h \
+    password.h
 
 FORMS += \
         passwordswindow.ui \
-    logindialog.ui
+    logindialog.ui \
+    addeditdialog.ui \
+    helpdialog.ui \
+    settingsdialog.ui \
+    pwneddialog.ui
 
 CONFIG += mobility
 MOBILITY = 
