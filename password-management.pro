@@ -24,38 +24,38 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        passwordswindow.cpp \
-    simplecrypt/simplecrypt.cpp \
-    passwordwidget.cpp \
-    logindialog.cpp \
-    addeditdialog.cpp \
-    helpdialog.cpp \
-    settingsdialog.cpp \
-    pwneddialog.cpp \
-    settings.cpp \
-    password.cpp
+    main.cpp \
+    src/win/passwordswindow.cpp \
+    src/win/logindialog.cpp \
+    src/win/addeditdialog.cpp \
+    src/win/helpdialog.cpp \
+    src/win/settingsdialog.cpp \
+    src/win/pwneddialog.cpp \
+    src/res/passwordwidget.cpp \
+    src/res/settings.cpp \
+    src/res/password.cpp \
+    src/simplecrypt/simplecrypt.cpp
 
 HEADERS += \
-        passwordswindow.h \
-    simplecrypt/simplecrypt.h \
-    passwordwidget.h \
-    logindialog.h \
-    addeditdialog.h \
-    helpdialog.h \
-    settingsdialog.h \
-    pwneddialog.h \
-    resources.h \
-    settings.h \
-    password.h
+    src/win/passwordswindow.h \
+    src/win/logindialog.h \
+    src/win/addeditdialog.h \
+    src/win/helpdialog.h \
+    src/win/settingsdialog.h \
+    src/win/pwneddialog.h \
+    src/res/passwordwidget.h \
+    src/res/resources.h \
+    src/res/settings.h \
+    src/res/password.h \
+    src/simplecrypt/simplecrypt.h
 
 FORMS += \
-        passwordswindow.ui \
-    logindialog.ui \
-    addeditdialog.ui \
-    helpdialog.ui \
-    settingsdialog.ui \
-    pwneddialog.ui
+    src/win/passwordswindow.ui \
+    src/win/logindialog.ui \
+    src/win/addeditdialog.ui \
+    src/win/helpdialog.ui \
+    src/win/settingsdialog.ui \
+    src/win/pwneddialog.ui
 
 CONFIG += mobility
 MOBILITY = 
