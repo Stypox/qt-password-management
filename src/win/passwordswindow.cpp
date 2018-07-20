@@ -1,6 +1,6 @@
 #include "passwordswindow.h"
 #include "ui_passwordswindow.h"
-#include "resources.h"
+#include "src/res/resources.h"
 
 PasswordsWindow::PasswordsWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::PasswordsWindow) {

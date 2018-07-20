@@ -10,6 +10,10 @@ struct Settings {
 
     QJsonObject toJson() const;
 
+    QString username;
+    QByteArray key;
+    QByteArray salt;
+
     Lang language;
     bool pwnedActive;
 };

@@ -3,8 +3,8 @@
 
 #include <QDialog>
 #include <QVector>
-#include "settings.h"
-#include "password.h"
+#include "src/res/settings.h"
+#include "src/res/password.h"
 
 namespace Ui {
 class LoginDialog;
@@ -16,6 +16,9 @@ class LoginDialog : public QDialog {
 public:
     explicit LoginDialog(Settings& settings, QVector<Password>& passwords, QWidget *parent = 0);
     ~LoginDialog();
+
+    void login();
+    void create();
 
 private:
     Ui::LoginDialog *ui;

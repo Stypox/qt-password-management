@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include <QVector>
 #include "logindialog.h"
-#include "settings.h"
-#include "password.h"
+#include "src/res/settings.h"
+#include "src/res/password.h"
 
 namespace Ui {
 class PasswordsWindow;
