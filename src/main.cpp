@@ -1,4 +1,4 @@
-#include "src/win/passwordswindow.h"
+#include "win/passwordswindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[]) {

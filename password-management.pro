@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-    main.cpp \
+    src/main.cpp \
     src/win/passwordswindow.cpp \
     src/win/logindialog.cpp \
     src/win/addeditdialog.cpp \
