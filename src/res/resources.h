@@ -14,33 +14,35 @@
 #endif
 
 
-namespace res {
-    const QString configFilename {QStandardPaths::writableLocation(QStandardPaths::StandardLocation::ConfigLocation) + "/password-management.conf"};
-    inline QString getDataPath() {
-        QFile configFile {configFilename};
-        if (configFile.open(QIODevice::ReadOnly)) {
-            QString dataPath = configFile.readLine();
-            if (dataPath != "" && QDir(dataPath).exists())
-                return dataPath;
-        }
+namespace res {	
+	enum class Lang : char {
+		en, it,
+		min = en, max = it, def = en,
+	};
+	constexpr unsigned int qHash(const Lang& lang) {
+		return static_cast<unsigned int>(lang);
+	}
 
-        return
-        #if OS_MOBILE
-            static_cast<QString>(getenv("EXTERNAL_STORAGE") ? getenv("EXTERNAL_STORAGE") : QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppDataLocation))
-        #elif defined(Q_OS_LINUX)
-            QStandardPaths::writableLocation(QStandardPaths::StandardLocation::HomeLocation)
-        #else
-            QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppDataLocation)
-        #endif
-            + "/.password-management/";
-    }
-    const QString dataPath = getDataPath();
 
+	class Config {
+	public:
+		Config();
+		~Config();
+		void save() const;
+
+		const QString& dataPath() const;
+		const Lang& language() const;
+	private:
+		const QString m_filename;
+		const QString m_directory;
+		QString m_dataPath;
+		Lang m_language;
+	};
+	const Config config;
 
 
     constexpr int toolButtonsFontSize {(OS_MOBILE ? 35 : 15)};
     const QFont iconFont {"Bitstream Charter", toolButtonsFontSize};
-
 
 
     //s stands for "settings" and p for "password"
@@ -57,26 +59,41 @@ namespace res {
         constexpr const char * pEmail {"email"};
         constexpr const char * pUsername {"username"};
         constexpr const char * pDescription {"description"};
-    }
+    }	
 
 
-
-	enum class Lang : char {
-        en, it
-    };
-	inline constexpr uint qHash(const Lang& lang) {
-		return static_cast<uint>(lang);
-	}
-
-
-	using lhpair = std::pair<Lang, QHash<QString, QString>>;
-	using sspair = QHash<QString, QString>;
-	const QHash<Lang, QHash<QString, QString>> loginCaptions {
-		lhpair{Lang::it, sspair{
-				{"hello", "ciao"},
-				{"hi", "ehi"}
-			}}
+	const QHash<Lang, QHash<QString, QString>> loginLabels {
+		{
+			Lang::en, {
+				{"username", "Username"},
+				{"password", "Password"},
+				{"create", "Create"},
+				{"login", "Login"},
+				{"reinsert", "Reinsert"},
+				{"errFileNotFound", "This account doesn't exist"},
+				{"errCorruptedFile", "Corrupted file"},
+				{"errInvalidFile", "Wrong password or corrupted file"},
+				{"errPasswordsNotMatching", "Passwords do not match"},
+				{"errExistingAccount", "This account already exists"},
+			}
+		},
+		{
+			Lang::it, {
+				{"username", "Nome utente"},
+				{"password", "Password"},
+				{"create", "Crea"},
+				{"login", "Entra"},
+				{"reinsert", "Reinserisci"},
+				{"errFileNotFound", "Quest'account non esiste"},
+				{"errCorruptedFile", "File corrotto"},
+				{"errInvalidFile", "Password errata o file corrotto"},
+				{"errPasswordsNotMatching", "Le password non corrispondono"},
+				{"errExistingAccount", "Quest'account esiste gia'"},
+			}
+		},
 	};
+
+	void debug();
 }
 
 #endif // RESOURCES_H

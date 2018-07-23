@@ -2,6 +2,7 @@
 #include "ui_logindialog.h"
 #include "src/res/resources.h"
 #include <QDir>
+#include <QDebug>
 
 LoginDialog::LoginDialog(Settings& settings, QVector<Password>& passwords, QWidget *parent) :
     QDialog(parent), ui(new Ui::LoginDialog), m_settings(settings), m_passwords(passwords) {
@@ -18,9 +19,9 @@ LoginDialog::~LoginDialog() {
 }
 
 void LoginDialog::login() {
-    QFile dataFile(res::dataPath);
+	QFile dataFile(res::config.dataPath());
 	if (!dataFile.open(QIODevice::ReadOnly)) {
-		//setError();
+		setError(res::loginLabels[res::config.language()]["errFileNotFound"]);
     }
 }
 void LoginDialog::create() {
@@ -28,5 +29,6 @@ void LoginDialog::create() {
 }
 
 void LoginDialog::setError(const QString& error) {
+	qDebug() << error;
 	ui->errorMessage->setText(error);
 }

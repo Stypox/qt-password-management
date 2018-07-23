@@ -33,6 +33,7 @@ SOURCES += \
     src/win/settingsdialog.cpp \
     src/win/pwneddialog.cpp \
     src/res/passwordwidget.cpp \
+    src/res/resources.cpp \
     src/res/settings.cpp \
     src/res/password.cpp \
     src/simplecrypt/simplecrypt.cpp
