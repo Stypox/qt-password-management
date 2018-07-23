@@ -17,10 +17,13 @@ public:
     explicit LoginDialog(Settings& settings, QVector<Password>& passwords, QWidget *parent = 0);
     ~LoginDialog();
 
+private slots:
     void login();
     void create();
 
 private:
+	void setError(const QString& error);
+
     Ui::LoginDialog *ui;
     Settings& m_settings;
     QVector<Password>& m_passwords;

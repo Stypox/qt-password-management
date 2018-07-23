@@ -6,10 +6,10 @@ PasswordsWindow::PasswordsWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::PasswordsWindow) {
     ui->setupUi(this);
 
-    ui->addPassword->setFont(toolButtonsFont);
-    ui->help->setFont(toolButtonsFont);
-    ui->settings->setFont(toolButtonsFont);
-    ui->logout->setFont(toolButtonsFont);
+    ui->addPassword->setFont(res::iconFont);
+    ui->help->setFont(res::iconFont);
+    ui->settings->setFont(res::iconFont);
+    ui->logout->setFont(res::iconFont);
 
     LoginDialog loginDialog(m_settings, m_passwords);
     loginDialog.exec();

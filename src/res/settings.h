@@ -14,7 +14,7 @@ struct Settings {
     QByteArray key;
     QByteArray salt;
 
-    Lang language;
+    res::Lang language;
     bool pwnedActive;
 };
 
