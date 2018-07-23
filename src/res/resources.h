@@ -61,7 +61,19 @@ namespace res {
         constexpr const char * pDescription {"description"};
     }	
 
-
+	const QHash<Lang, QHash<QString, QString>> sharedLabels {
+		{
+			Lang::en, {
+				{"langName", "English"},
+				{"", ""},
+			}
+		},
+		{
+			Lang::it, {
+				{"langName", "Italiano"},
+			}
+		},
+	};
 	const QHash<Lang, QHash<QString, QString>> loginLabels {
 		{
 			Lang::en, {
@@ -70,6 +82,7 @@ namespace res {
 				{"create", "Create"},
 				{"login", "Login"},
 				{"reinsert", "Reinsert"},
+				{"noError", ""},
 				{"errFileNotFound", "This account doesn't exist"},
 				{"errCorruptedFile", "Corrupted file"},
 				{"errInvalidFile", "Wrong password or corrupted file"},
@@ -84,6 +97,7 @@ namespace res {
 				{"create", "Crea"},
 				{"login", "Entra"},
 				{"reinsert", "Reinserisci"},
+				{"noError", ""},
 				{"errFileNotFound", "Quest'account non esiste"},
 				{"errCorruptedFile", "File corrotto"},
 				{"errInvalidFile", "Password errata o file corrotto"},

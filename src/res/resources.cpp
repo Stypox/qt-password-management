@@ -8,7 +8,11 @@ namespace res {
 		configFile.open(QIODevice::ReadOnly);
 
 		QString line = configFile.readLine();
-		if (line == "") {
+		if (!line.isEmpty() && line.back() == '\n')
+			line.chop(1);
+		if (!line.isEmpty() && line.back() == '\r')
+			line.chop(1);
+		if (line.isEmpty()) {
 			m_dataPath =
 			#if OS_MOBILE
 				static_cast<QString>(getenv("EXTERNAL_STORAGE") ? getenv("EXTERNAL_STORAGE") : QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppDataLocation))
@@ -24,6 +28,10 @@ namespace res {
 		}
 
 		line = configFile.readLine();
+		if (!line.isEmpty() && line.back() == '\n')
+			line.chop(1);
+		if (!line.isEmpty() && line.back() == '\r')
+			line.chop(1);
 		bool langOk;
 		int language = line.toInt(&langOk);
 		if (langOk && language >= static_cast<int>(Lang::min) && language <= static_cast<int>(Lang::max))
@@ -51,6 +59,9 @@ namespace res {
 	}
 
 	void debug() {
-		qDebug() << "Config: " << config.dataPath() << " - " << static_cast<int>(config.language()) << "\n";
+		qDebug() << "Resources:";
+		qDebug() << "Mobile:   " << (OS_MOBILE ? "True" : "False");
+		qDebug() << "Data path:" << config.dataPath();
+		qDebug() << "Language: " << sharedLabels[config.language()]["langName"];
 	}
 }

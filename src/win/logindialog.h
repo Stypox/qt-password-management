@@ -23,6 +23,7 @@ private slots:
 
 private:
 	void setError(const QString& error);
+	void setLabError(const QString& key);
 
     Ui::LoginDialog *ui;
     Settings& m_settings;

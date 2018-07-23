@@ -21,8 +21,9 @@ LoginDialog::~LoginDialog() {
 void LoginDialog::login() {
 	QFile dataFile(res::config.dataPath());
 	if (!dataFile.open(QIODevice::ReadOnly)) {
-		setError(res::loginLabels[res::config.language()]["errFileNotFound"]);
+		setLabError("errFileNotFound");
     }
+	dataFile.read(24);
 }
 void LoginDialog::create() {
 
@@ -31,4 +32,7 @@ void LoginDialog::create() {
 void LoginDialog::setError(const QString& error) {
 	qDebug() << error;
 	ui->errorMessage->setText(error);
+}
+void LoginDialog::setLabError(const QString& key) {
+	setError(res::loginLabels[res::config.language()][key]);
 }
