@@ -9,14 +9,14 @@ class HelpDialog;
 
 class HelpDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit HelpDialog(QWidget *parent = 0);
-    ~HelpDialog();
+	explicit HelpDialog(QWidget *parent = 0);
+	~HelpDialog();
 
 private:
-    Ui::HelpDialog *ui;
+	Ui::HelpDialog *ui;
 };
 
 #endif // HELPDIALOG_H

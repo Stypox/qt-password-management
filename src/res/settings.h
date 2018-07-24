@@ -4,18 +4,18 @@
 #include "resources.h"
 
 struct Settings {
-    Settings();
-    Settings(const QJsonObject& settingsJson);
-    void operator()(const QJsonObject& settingsJson);
+	Settings();
+	Settings(const QJsonObject& settingsJson);
+	void operator()(const QJsonObject& settingsJson);
 
-    QJsonObject toJson() const;
+	QJsonObject toJson() const;
 
-    QString username;
-    QByteArray key;
-    QByteArray salt;
+	QString username;
+	QByteArray key;
+	QByteArray salt;
 
-    res::Lang language;
-    bool pwnedActive;
+	res::Lang language;
+	bool pwnedActive;
 };
 
 #endif // SETTINGS_H

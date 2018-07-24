@@ -9,14 +9,14 @@ class AddEditDialog;
 
 class AddEditDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit AddEditDialog(QWidget *parent = 0);
-    ~AddEditDialog();
+	explicit AddEditDialog(QWidget *parent = 0);
+	~AddEditDialog();
 
 private:
-    Ui::AddEditDialog *ui;
+	Ui::AddEditDialog *ui;
 };
 
 #endif // ADDEDITDIALOG_H

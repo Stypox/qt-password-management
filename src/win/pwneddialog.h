@@ -9,14 +9,14 @@ class PwnedDialog;
 
 class PwnedDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit PwnedDialog(QWidget *parent = 0);
-    ~PwnedDialog();
+	explicit PwnedDialog(QWidget *parent = 0);
+	~PwnedDialog();
 
 private:
-    Ui::PwnedDialog *ui;
+	Ui::PwnedDialog *ui;
 };
 
 #endif // PWNEDDIALOG_H

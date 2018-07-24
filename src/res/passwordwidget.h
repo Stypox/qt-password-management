@@ -6,20 +6,20 @@
 
 
 class PasswordWidget : public QWidget {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    PasswordWidget(const int& listIndex, Password& password);
+	PasswordWidget(const int& listIndex, Password& password);
 
 private slots:
-    void setLittle();
-    void setBig();
+	void setLittle();
+	void setBig();
 
 signals:
-    void edit(const int& listIndex);
+	void edit(const int& listIndex);
 
 private:
-    int m_listIndex;
-    Password& m_password;
+	int m_listIndex;
+	Password& m_password;
 };
 
 #endif // PASSWORDWIDGET_H

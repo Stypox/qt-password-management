@@ -12,16 +12,16 @@ class PasswordsWindow;
 }
 
 class PasswordsWindow : public QMainWindow {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit PasswordsWindow(QWidget *parent = 0);
-    ~PasswordsWindow();
+	explicit PasswordsWindow(QWidget *parent = 0);
+	~PasswordsWindow();
 
 private:
-    Ui::PasswordsWindow* ui;
-    Settings m_settings;
-    QVector<Password> m_passwords;
+	Ui::PasswordsWindow* ui;
+	Settings m_settings;
+	QVector<Password> m_passwords;
 };
 
 #endif // PASSWORDSWINDOW_H

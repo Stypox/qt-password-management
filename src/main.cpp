@@ -4,9 +4,9 @@
 int main(int argc, char *argv[]) {
 	res::debug();
 
-    QApplication app {argc, argv};
-    PasswordsWindow passwordsWindow {};
-    passwordsWindow.show();
+	QApplication app {argc, argv};
+	PasswordsWindow passwordsWindow {};
+	passwordsWindow.show();
 
-    return app.exec();
+	return app.exec();
 }

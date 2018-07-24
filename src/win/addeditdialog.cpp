@@ -2,13 +2,13 @@
 #include "ui_addeditdialog.h"
 
 AddEditDialog::AddEditDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::AddEditDialog)
+	QDialog(parent),
+	ui(new Ui::AddEditDialog)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 AddEditDialog::~AddEditDialog()
 {
-    delete ui;
+	delete ui;
 }

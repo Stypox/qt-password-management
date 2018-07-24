@@ -51,7 +51,7 @@ namespace res {
 		configFile.write("\n");
 		configFile.write(QString::number(static_cast<int>(m_language)).toUtf8());
 	}
-	const QString& Config::dataPath() const {
+	const QString& Config::dataDir() const {
 		return m_dataPath;
 	}
 	const Lang& Config::language() const {
@@ -61,7 +61,7 @@ namespace res {
 	void debug() {
 		qDebug() << "Resources:";
 		qDebug() << "Mobile:   " << (OS_MOBILE ? "True" : "False");
-		qDebug() << "Data path:" << config.dataPath();
+		qDebug() << "Data path:" << config.dataDir();
 		qDebug() << "Language: " << sharedLabels[config.language()]["langName"];
 	}
 }

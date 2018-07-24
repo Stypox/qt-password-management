@@ -2,13 +2,13 @@
 #include "ui_pwneddialog.h"
 
 PwnedDialog::PwnedDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::PwnedDialog)
+	QDialog(parent),
+	ui(new Ui::PwnedDialog)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 PwnedDialog::~PwnedDialog()
 {
-    delete ui;
+	delete ui;
 }

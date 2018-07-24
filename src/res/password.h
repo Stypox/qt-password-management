@@ -7,18 +7,18 @@
 
 
 struct Password {
-    Password();
-    Password(const QJsonObject &passwordJson);
+	Password();
+	Password(const QJsonObject &passwordJson);
 
-    void operator() (const QJsonObject &passwordJson);
+	void operator() (const QJsonObject &passwordJson);
 
-    QJsonObject toJson() const;
+	QJsonObject toJson() const;
 
-    QString name;
-    QString password;
-    QString email;
-    QString username;
-    QString description;
+	QString name;
+	QString password;
+	QString email;
+	QString username;
+	QString description;
 };
 
 #endif // PASSWORDSTRUCTURE_H
