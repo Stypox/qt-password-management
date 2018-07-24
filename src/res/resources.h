@@ -14,7 +14,12 @@
 #endif
 
 
-namespace res {	
+namespace res {
+	constexpr int saltLen = 24,
+		keyLen = 32,
+		passwordMinLen = keyLen - saltLen,
+		passwordMaxLen = keyLen - 1;
+
 	enum class Lang : char {
 		en, it,
 		min = en, max = it, def = en,
@@ -22,7 +27,6 @@ namespace res {
 	constexpr unsigned int qHash(const Lang& lang) {
 		return static_cast<unsigned int>(lang);
 	}
-
 
 	class Config {
 	public:
@@ -40,10 +44,8 @@ namespace res {
 	};
 	const Config config;
 
-
     constexpr int toolButtonsFontSize {(OS_MOBILE ? 35 : 15)};
     const QFont iconFont {"Bitstream Charter", toolButtonsFontSize};
-
 
     //s stands for "settings" and p for "password"
     namespace json {

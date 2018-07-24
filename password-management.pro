@@ -36,7 +36,8 @@ SOURCES += \
     src/res/resources.cpp \
     src/res/settings.cpp \
     src/res/password.cpp \
-    src/simplecrypt/simplecrypt.cpp
+    src/simplecrypt/simplecrypt.cpp \
+    src/res/cryptography.cpp
 
 HEADERS += \
     src/win/passwordswindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     src/res/resources.h \
     src/res/settings.h \
     src/res/password.h \
-    src/simplecrypt/simplecrypt.h
+    src/simplecrypt/simplecrypt.h \
+    src/res/cryptography.h
 
 FORMS += \
     src/win/passwordswindow.ui \
