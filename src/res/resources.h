@@ -6,6 +6,8 @@
 #include <QFile>
 #include <QHash>
 #include <QString>
+#include "settings.h"
+#include "password.h"
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
 #define OS_MOBILE 1
@@ -44,6 +46,9 @@ namespace res {
 	};
 	const Config config;
 
+	constexpr const char * dataFileExt = ".txt";
+	constexpr const char * backupFileExt = ".bak";
+
 	constexpr int toolButtonsFontSize {(OS_MOBILE ? 35 : 15)};
 	const QFont iconFont {"Bitstream Charter", toolButtonsFontSize};
 
@@ -79,32 +84,36 @@ namespace res {
 	const QHash<Lang, QHash<QString, QString>> loginLabels {
 		{
 			Lang::en, {
-				{"username", "Username"},
-				{"password", "Password"},
+				{"usernameTitle", "Username:"},
+				{"passwordTitle", "Password:"},
 				{"create", "Create"},
 				{"login", "Login"},
-				{"reinsert", "Reinsert"},
 				{"noError", ""},
-				{"errFileNotFound", "This account doesn't exist"},
-				{"errCorruptedFile", "Corrupted file"},
+				{"errInvalidPassword", "Password length is between 8 and 31"},
+				{"errFileNotFound", "This account doesn't exist Quest'account esiste gia', verrà creato un backup"},
+				{"errCorruptedFile", "Corrupted file: unable to decrypt"},
+				{"errCorruptedData", "The decrypted data is corrupted"},
 				{"errInvalidFile", "Wrong password or corrupted file"},
 				{"errPasswordsNotMatching", "Passwords do not match"},
-				{"errExistingAccount", "This account already exists"},
+				{"warExistingAccount", "Backupped the old account"},
+				{"warReinsertPassword", "Reinsert password"},
 			}
 		},
 		{
 			Lang::it, {
-				{"username", "Nome utente"},
-				{"password", "Password"},
+				{"usernameTitle", "Nome utente"},
+				{"passwordTitle", "Password"},
 				{"create", "Crea"},
 				{"login", "Entra"},
-				{"reinsert", "Reinserisci"},
 				{"noError", ""},
+				{"errInvalidPassword", "Password e' lunga tra 8 e 31"},
 				{"errFileNotFound", "Quest'account non esiste"},
 				{"errCorruptedFile", "File corrotto"},
+				{"errCorruptedData", "I dati decriptati sono corrotti"},
 				{"errInvalidFile", "Password errata o file corrotto"},
 				{"errPasswordsNotMatching", "Le password non corrispondono"},
-				{"errExistingAccount", "Quest'account esiste gia'"},
+				{"warExistingAccount", "Fatto il backup del vecchio account"},
+				{"warReinsertPassword", "Reinserisci la password"},
 			}
 		},
 	};

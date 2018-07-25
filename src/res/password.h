@@ -8,9 +8,7 @@
 
 struct Password {
 	Password();
-	Password(const QJsonObject &passwordJson);
-
-	void operator() (const QJsonObject &passwordJson);
+	Password(const QJsonObject&passwordJson);
 
 	QJsonObject toJson() const;
 

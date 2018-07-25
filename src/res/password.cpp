@@ -11,15 +11,9 @@ Password::Password(const QJsonObject& passwordJson) :
 	email {passwordJson[json::pEmail].toString()},
 	username {passwordJson[json::pUsername].toString()},
 	description {passwordJson[json::pDescription].toString()} {}
-void Password::operator() (const QJsonObject &passwordJson) {
-	name = passwordJson[json::pName].toString();
-	password = passwordJson[json::pPassword].toString();
-	email = passwordJson[json::pEmail].toString();
-	username = passwordJson[json::pUsername].toString();
-	description = passwordJson[json::pDescription].toString();
-}
 
 QJsonObject Password::toJson() const {
 	QString passwordJson {json::passwordStructure};
-	return QJsonDocument::fromJson(passwordJson.arg(name, password, email, username, description).toUtf8()).object();
+	passwordJson = passwordJson.arg(name).arg(password).arg(email).arg(username).arg(description);
+	return QJsonDocument::fromJson(passwordJson.toUtf8()).object();
 }

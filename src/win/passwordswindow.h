@@ -18,6 +18,8 @@ public:
 	explicit PasswordsWindow(QWidget *parent = 0);
 	~PasswordsWindow();
 
+	void loadData();
+
 private:
 	Ui::PasswordsWindow* ui;
 	Settings m_settings;

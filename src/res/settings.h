@@ -5,15 +5,18 @@
 
 struct Settings {
 	Settings();
-	Settings(const QJsonObject& settingsJson);
-	void operator()(const QJsonObject& settingsJson);
 
-	QJsonObject toJson() const;
+	void load(const QString& Username, const QByteArray& Password, const QJsonObject& settingsJson);
+	void load(const QString& Username, const QByteArray& Password, const res::Lang& Language = res::Lang::def, const bool& PwnedActive = false);
+	QByteArray toJson() const;
+	void reset();
+
+	void debug();
+
+	bool loaded;
 
 	QString username;
-	QByteArray key;
-	QByteArray salt;
-
+	QByteArray password;
 	res::Lang language;
 	bool pwnedActive;
 };

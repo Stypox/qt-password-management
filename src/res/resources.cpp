@@ -38,6 +38,8 @@ namespace res {
 			m_language = static_cast<Lang>(language);
 		else
 			m_language = Lang::def;
+
+		QDir().mkdir(m_dataPath);
 	}
 	Config::~Config() {
 		save();

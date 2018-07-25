@@ -10,9 +10,14 @@ PasswordsWindow::PasswordsWindow(QWidget *parent) :
 	ui->help->setFont(res::iconFont);
 	ui->settings->setFont(res::iconFont);
 	ui->logout->setFont(res::iconFont);
+}
 
+void PasswordsWindow::loadData() {
 	LoginDialog loginDialog(m_settings, m_passwords);
 	loginDialog.exec();
+	if (!m_settings.loaded)
+		exit(0);
+	m_settings.debug();
 }
 
 PasswordsWindow::~PasswordsWindow() {

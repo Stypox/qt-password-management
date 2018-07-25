@@ -22,12 +22,15 @@ private slots:
 	void create();
 
 private:
+	void updateLabels();
 	void setError(const QString& error);
 	void setLabError(const QString& key);
 
 	Ui::LoginDialog *ui;
 	Settings& m_settings;
 	QVector<Password>& m_passwords;
+
+	QByteArray creatingPassword;
 };
 
 #endif // LOGINDIALOG_H
