@@ -2,23 +2,31 @@
 #define SETTINGS_H
 #include <QJsonObject>
 #include "resources.h"
+#include "password.h"
+
 
 struct Settings {
 	Settings();
 
-	void load(const QString& Username, const QByteArray& Password, const QJsonObject& settingsJson);
-	void load(const QString& Username, const QByteArray& Password, const res::Lang& Language = res::Lang::def, const bool& PwnedActive = false);
-	QByteArray toJson() const;
+	bool load(const QJsonObject& settingsJson);
+	bool load(const res::Lang& Language = res::Lang::def, const bool& PwnedActive = false);
+	QJsonValue toJson() const;
 	void reset();
 
 	void debug();
 
 	bool loaded;
 
-	QString username;
-	QByteArray password;
 	res::Lang language;
 	bool pwnedActive;
 };
+
+struct UserData {
+	QString username;
+	QByteArray password;
+};
+
+bool extractData(const QByteArray& dataJson, Settings& settings, QVector<Password>& passwords);
+QByteArray buildData(const Settings& settings, const QVector<Password>& passwords);
 
 #endif // SETTINGS_H

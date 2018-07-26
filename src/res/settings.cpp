@@ -1,34 +1,80 @@
 #include "settings.h"
 #include <QJsonDocument>
+#include <QJsonArray>
 #include <QDebug>
 
 Settings::Settings() : loaded(false) {}
 
-void Settings::load(const QString& Username, const QByteArray& Password, const QJsonObject& settingsJson) {
-	loaded = true;
-	username = Username;
-	password = Password;
+bool Settings::load(const QJsonObject& settingsJson) {
 
-	language = static_cast<res::Lang>(settingsJson[res::json::sLanguage].toInt());
+	language = static_cast<res::Lang>(settingsJson[res::json::sLanguage].toInt(static_cast<int>(res::Lang::max) + 1));
+	if (language > res::Lang::max || language < res::Lang::min || !settingsJson[res::json::sPwnedActive].isBool())
+		return false;
 	pwnedActive = settingsJson[res::json::sPwnedActive].toBool();
-}
-void Settings::load(const QString& Username, const QByteArray& Password, const res::Lang& Language, const bool& PwnedActive) {
 	loaded = true;
-	username = Username;
-	password = Password;
-	language = Language;
-	pwnedActive = PwnedActive;
+	return true;
 }
-QByteArray Settings::toJson() const {
+bool Settings::load(const res::Lang& Language, const bool& PwnedActive) {
+	language = Language;
+	if (language > res::Lang::max || language < res::Lang::min)
+		return false;
+	pwnedActive = PwnedActive;
+	loaded = true;
+	return true;
+}
+QJsonValue Settings::toJson() const {
+	if (!loaded)
+		return QJsonValue{};
 	QString settingsJson {res::json::settingsStructure};
 	settingsJson = settingsJson.arg(static_cast<int>(language)).arg(pwnedActive ? "true" : "false");
-	return settingsJson.toUtf8();
-}
 
+	return QJsonDocument::fromJson(settingsJson.toUtf8()).object();
+}
 void Settings::reset() {
 	loaded = false;
 }
 
 void Settings::debug() {
-	qDebug() << "Settings    Username:" << username << " Key:" << password << " Language:" << static_cast<int>(language) << " Pwned:" << pwnedActive << " Json:" << toJson();
+	qDebug() << "Settings    " << " Language:" << static_cast<int>(language) << " Pwned:" << pwnedActive << " Json:" << QJsonDocument{toJson().toObject()}.toBinaryData();
+}
+
+
+
+bool extractData(const QByteArray& dataJson, Settings& settings, QVector<Password>& passwords) {
+	settings.reset();
+	passwords.resize(0);
+
+	QJsonDocument dataDocument = QJsonDocument::fromBinaryData(dataJson);
+	if (!dataDocument.isObject()) {
+		settings.loaded = false;
+		return false;
+	}
+	QJsonObject data {dataDocument.object()};
+	if (!data.contains(res::json::settings) || !data[res::json::settings].isObject() ||
+			!data.contains(res::json::passwordArray) || !data[res::json::passwordArray].isArray()) {
+		settings.loaded = false;
+		return false;
+	}
+
+	settings.load(data[res::json::settings].toObject());
+	for (auto passwordJson : data[res::json::passwordArray].toArray()) {
+		Password password;
+		if (!passwordJson.isObject() ||
+				!password.load(passwordJson.toObject())) {
+			settings.loaded = false;
+			return false;
+		}
+		passwords.push_back(password);
+	}
+	return true;
+}
+QByteArray buildData(const Settings& settings, const QVector<Password>& passwords) {
+	QJsonObject data {QJsonDocument::fromJson(res::json::basicStructure).object()};
+
+	data[res::json::settings] = settings.toJson();
+	for (auto&& password : passwords) {
+		data[res::json::passwordArray].toArray().push_back(password.toJson());
+	}
+
+	return QJsonDocument{data}.toBinaryData();
 }

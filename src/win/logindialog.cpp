@@ -7,8 +7,8 @@
 #include "src/res/resources.h"
 #include "src/res/cryptography.h"
 
-LoginDialog::LoginDialog(Settings& settings, QVector<Password>& passwords, QWidget *parent) :
-	QDialog(parent), ui(new Ui::LoginDialog), m_settings(settings), m_passwords(passwords) {
+LoginDialog::LoginDialog(Settings& settings, UserData& userData, QVector<Password>& passwords, QWidget *parent) :
+	QDialog(parent), ui(new Ui::LoginDialog), m_settings(settings), m_userData(userData), m_passwords(passwords) {
 	ui->setupUi(this);
 
 #ifdef Q_OS_ANDROID
@@ -19,11 +19,17 @@ LoginDialog::LoginDialog(Settings& settings, QVector<Password>& passwords, QWidg
 	m_passwords.resize(0);
 
 	ui->passwordEditor->setEchoMode(QLineEdit::Password);
-	setLabError("noError");
+	setError("noError");
+	setWarning("noWarning");
+	ui->languageEditor->clear();
+	for (res::Lang langIndex = res::Lang::min; langIndex <= res::Lang::max; ++langIndex)
+		ui->languageEditor->addItem(res::sharedLabels[langIndex]["langName"]);
+	ui->languageEditor->setCurrentIndex(static_cast<int>(res::config.language()));
 	updateLabels();
 
 	connect(ui->create, SIGNAL(clicked(bool)), this, SLOT(create()));
 	connect(ui->login, SIGNAL(clicked(bool)), this, SLOT(login()));
+	connect(ui->languageEditor, SIGNAL(currentIndexChanged(int)), this, SLOT(changeLanguage(int)));
 }
 LoginDialog::~LoginDialog() {
 	delete ui;
@@ -33,7 +39,7 @@ void LoginDialog::login() {
 	const QString& username = ui->usernameEditor->text();
 	const QByteArray& password = ui->passwordEditor->text().toUtf8();
 	if (password.length() < res::passwordMinLen || password.length() > res::passwordMaxLen) {
-		setLabError("errInvalidPassword");
+		setError("errInvalidPassword");
 		return;
 	}
 
@@ -41,31 +47,28 @@ void LoginDialog::login() {
 	if (dataFile.open(QIODevice::ReadOnly)) {
 		SimpleCrypt::Error success;
 		QByteArray data = res::decrypt(dataFile.readAll(), password, success);
-		if (data.isEmpty()) {
-			setLabError("errInvalidFile");
-			return;
-		}
 
 		switch (success) {
 		case SimpleCrypt::ErrorUnknownVersion:
-			setLabError("errCorruptedFile");
+			setError("errCorruptedFile");
 			return;
 		case SimpleCrypt::ErrorIntegrityFailed:
-			setLabError("errInvalidFile");
+			setError("errInvalidFile");
 			return;
 		default:
 			break;
 		}
 
-		QJsonObject json {QJsonDocument::fromJson(data).object()};
-		m_settings.load(username, password, json[res::json::settings].toObject());
-		for (auto&& passwordJson : json[res::json::passwordArray].toArray())
-			m_passwords.push_back({passwordJson.toObject()});
+		if (!extractData(data, m_settings, m_passwords)) {
+			setError("errCorruptedData");
+			return;
+		}
+		m_userData = UserData{username, password};
 
 		close();
 	}
 	else {
-		setLabError("errFileNotFound");
+		setError("errFileNotFound");
 		return;
 	}
 }
@@ -75,28 +78,33 @@ void LoginDialog::create() {
 
 	if (creatingPassword.isEmpty()) {
 		if (password.length() < res::passwordMinLen || password.length() > res::passwordMaxLen) {
-			setLabError("errInvalidPassword");
+			setError("errInvalidPassword");
 			return;
 		}
+
+		QFile dataFile {res::config.dataDir() + username + res::dataFileExt};
+		if (dataFile.exists())
+			setError("errExistingAccount");
 
 		creatingPassword = password;
 		ui->passwordEditor->clear();
 		ui->usernameEditor->setDisabled(true);
-		setLabError("warReinsertPassword");
+		setWarning("warReinsertPassword");
 	}
 	else {
 		if (password != creatingPassword) {
 			creatingPassword = "";
 			ui->usernameEditor->setDisabled(false);
-			setLabError("errPasswordsNotMatching");
+			setWarning("noWarning");
+			setError("errPasswordsNotMatching");
 			return;
 		}
 
-		m_settings.load(username, password);
+		m_settings.load();
+		m_userData = UserData{username, password};
 
 		QFile dataFile {res::config.dataDir() + username + res::dataFileExt};
 		if (dataFile.exists()) {
-			setLabError("warExistingAccount");
 			QFile backupFile{res::config.dataDir() + username + res::backupFileExt};
 			backupFile.open(QIODevice::WriteOnly);
 			dataFile.open(QIODevice::ReadOnly);
@@ -106,6 +114,10 @@ void LoginDialog::create() {
 		close();
 	}
 }
+void LoginDialog::changeLanguage(int index){
+	res::config.setLanguage(static_cast<res::Lang>(index));
+	updateLabels();
+}
 
 void LoginDialog::updateLabels() {
 	const QHash<QString, QString>& labels = res::loginLabels[res::config.language()];
@@ -114,10 +126,11 @@ void LoginDialog::updateLabels() {
 	ui->create->setText(labels["create"]);
 	ui->login->setText(labels["login"]);
 }
-void LoginDialog::setError(const QString& error) {
-	qDebug() << "Login window error:" << error;
-	ui->errorMessage->setText(error);
+void LoginDialog::setError(const QString& key) {
+	qDebug() << "Login window error:" << key;
+	ui->errorMessage->setText(res::loginLabels[res::config.language()][key]);
 }
-void LoginDialog::setLabError(const QString& key) {
-	setError(res::loginLabels[res::config.language()][key]);
+void LoginDialog::setWarning(const QString& key) {
+	qDebug() << "Login window warning:" << key;
+	ui->warningMessage->setText(res::loginLabels[res::config.language()][key]);
 }

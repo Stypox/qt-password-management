@@ -19,7 +19,7 @@ namespace res {
 	QByteArray encrypt(QByteArray decryptedData, const QByteArray& password) {
 		QByteArray salt {};
 		for (int saltChar = 0; saltChar < res::saltLen; ++saltChar) {
-			salt += qrand() % 256;
+			salt += static_cast<char>(qrand() % 256);
 		}
 
 		QVector<quint64> keys = splitKey(password + salt);
@@ -37,11 +37,11 @@ namespace res {
 
 		QVector<quint64> keys = splitKey(password + salt);
 
-		SimpleCrypt cryptEngine {keys[0]};
-		cryptEngine.decryptToByteArray(encryptedData);
+		SimpleCrypt cryptEngine {keys.back()};
+		encryptedData = cryptEngine.decryptToByteArray(encryptedData);
 		success = cryptEngine.lastError();
-		for (auto it = keys.rbegin() + 1; it < keys.rend(); ++it)
-			encryptedData = SimpleCrypt{*it}.decryptToByteArray(encryptedData);
+		for (auto rit = ++keys.rbegin(); rit < keys.rend(); ++rit)
+			encryptedData = SimpleCrypt{*rit}.decryptToByteArray(encryptedData);
 
 		return encryptedData;
 	}

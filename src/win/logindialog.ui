@@ -27,6 +27,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="warningMessage">
+       <property name="text">
+        <string>WARNING_MESSAGE</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="errorSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -99,7 +109,23 @@
         </widget>
        </item>
        <item>
-        <spacer name="buttonsHSpacer">
+        <spacer name="buttonsSpacerLeft">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QComboBox" name="languageEditor"/>
+       </item>
+       <item>
+        <spacer name="buttonsSpacerRight">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

@@ -7,12 +7,11 @@ namespace Ui {
 class AddEditDialog;
 }
 
-class AddEditDialog : public QDialog
-{
+class AddEditDialog : public QDialog {
 	Q_OBJECT
 
 public:
-	explicit AddEditDialog(QWidget *parent = 0);
+	explicit AddEditDialog(QWidget *parent = nullptr);
 	~AddEditDialog();
 
 private:

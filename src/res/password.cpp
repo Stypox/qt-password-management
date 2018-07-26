@@ -2,18 +2,26 @@
 #include "resources.h"
 #include <QJsonDocument>
 
-using namespace res;
-
 Password::Password() {}
-Password::Password(const QJsonObject& passwordJson) :
-	name {passwordJson[json::pName].toString()},
-	password {passwordJson[json::pPassword].toString()},
-	email {passwordJson[json::pEmail].toString()},
-	username {passwordJson[json::pUsername].toString()},
-	description {passwordJson[json::pDescription].toString()} {}
+bool Password::load(const QJsonObject& passwordJson) {
+	if (!passwordJson.contains(res::json::pName) || !passwordJson[res::json::pName].isString() ||
+			!passwordJson.contains(res::json::pPassword) || !passwordJson[res::json::pPassword].isString() ||
+			!passwordJson.contains(res::json::pEmail) || !passwordJson[res::json::pEmail].isString() ||
+			!passwordJson.contains(res::json::pUsername) || !passwordJson[res::json::pUsername].isString() ||
+			!passwordJson.contains(res::json::pDescription) || !passwordJson[res::json::pDescription].isString())
+		return false;
 
-QJsonObject Password::toJson() const {
-	QString passwordJson {json::passwordStructure};
+	name = passwordJson[res::json::pName].toString();
+	password = passwordJson[res::json::pPassword].toString();
+	email = passwordJson[res::json::pEmail].toString();
+	username = passwordJson[res::json::pUsername].toString();
+	description = passwordJson[res::json::pDescription].toString();
+	return true;
+}
+
+QJsonValue Password::toJson() const {
+	QString passwordJson {res::json::passwordStructure};
 	passwordJson = passwordJson.arg(name).arg(password).arg(email).arg(username).arg(description);
+
 	return QJsonDocument::fromJson(passwordJson.toUtf8()).object();
 }

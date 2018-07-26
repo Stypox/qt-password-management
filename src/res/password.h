@@ -8,9 +8,10 @@
 
 struct Password {
 	Password();
-	Password(const QJsonObject&passwordJson);
 
-	QJsonObject toJson() const;
+	bool load(const QJsonObject& passwordJson);
+
+	QJsonValue toJson() const;
 
 	QString name;
 	QString password;

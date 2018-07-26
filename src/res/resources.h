@@ -6,8 +6,6 @@
 #include <QFile>
 #include <QHash>
 #include <QString>
-#include "settings.h"
-#include "password.h"
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
 #define OS_MOBILE 1
@@ -26,6 +24,9 @@ namespace res {
 		en, it,
 		min = en, max = it, def = en,
 	};
+	inline void operator++(Lang& lang) {
+		lang = static_cast<Lang>(static_cast<int>(lang) + 1);
+	}
 	constexpr unsigned int qHash(const Lang& lang) {
 		return static_cast<unsigned int>(lang);
 	}
@@ -33,24 +34,24 @@ namespace res {
 	class Config {
 	public:
 		Config();
-		~Config();
-		void save() const;
 
 		const QString& dataDir() const;
 		const Lang& language() const;
+		void setLanguage(const Lang& language);
 	private:
+		void save() const;
+
 		const QString m_filename;
 		const QString m_directory;
-		QString m_dataPath;
 		Lang m_language;
 	};
-	const Config config;
+	extern Config config;
 
 	constexpr const char * dataFileExt = ".txt";
 	constexpr const char * backupFileExt = ".bak";
 
-	constexpr int toolButtonsFontSize {(OS_MOBILE ? 35 : 15)};
-	const QFont iconFont {"Bitstream Charter", toolButtonsFontSize};
+	constexpr int iconFontSize {(OS_MOBILE ? 35 : 15)};
+	const QFont iconFont {"Bitstream Charter", iconFontSize};
 
 	//s stands for "settings" and p for "password"
 	namespace json {
@@ -89,20 +90,21 @@ namespace res {
 				{"create", "Create"},
 				{"login", "Login"},
 				{"noError", ""},
+				{"noWarning", ""},
 				{"errInvalidPassword", "Password length is between 8 and 31"},
-				{"errFileNotFound", "This account doesn't exist Quest'account esiste gia', verrà creato un backup"},
+				{"errFileNotFound", "This account doesn't exist"},
 				{"errCorruptedFile", "Corrupted file: unable to decrypt"},
 				{"errCorruptedData", "The decrypted data is corrupted"},
 				{"errInvalidFile", "Wrong password or corrupted file"},
 				{"errPasswordsNotMatching", "Passwords do not match"},
-				{"warExistingAccount", "Backupped the old account"},
+				{"errExistingAccount", "Account already exists: the old one will be backupped"},
 				{"warReinsertPassword", "Reinsert password"},
 			}
 		},
 		{
 			Lang::it, {
-				{"usernameTitle", "Nome utente"},
-				{"passwordTitle", "Password"},
+				{"usernameTitle", "Username:"},
+				{"passwordTitle", "Password:"},
 				{"create", "Crea"},
 				{"login", "Entra"},
 				{"noError", ""},
@@ -112,7 +114,7 @@ namespace res {
 				{"errCorruptedData", "I dati decriptati sono corrotti"},
 				{"errInvalidFile", "Password errata o file corrotto"},
 				{"errPasswordsNotMatching", "Le password non corrispondono"},
-				{"warExistingAccount", "Fatto il backup del vecchio account"},
+				{"errExistingAccount", "L'account esiste gia': il vecchio sara' backuppato"},
 				{"warReinsertPassword", "Reinserisci la password"},
 			}
 		},

@@ -7,12 +7,11 @@ namespace Ui {
 class PwnedDialog;
 }
 
-class PwnedDialog : public QDialog
-{
+class PwnedDialog : public QDialog {
 	Q_OBJECT
 
 public:
-	explicit PwnedDialog(QWidget *parent = 0);
+	explicit PwnedDialog(QWidget *parent = nullptr);
 	~PwnedDialog();
 
 private:

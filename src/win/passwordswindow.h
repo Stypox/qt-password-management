@@ -15,14 +15,16 @@ class PasswordsWindow : public QMainWindow {
 	Q_OBJECT
 
 public:
-	explicit PasswordsWindow(QWidget *parent = 0);
+	explicit PasswordsWindow(QWidget *parent = nullptr);
 	~PasswordsWindow();
 
 	void loadData();
+	void saveData();
 
 private:
 	Ui::PasswordsWindow* ui;
 	Settings m_settings;
+	UserData m_userData;
 	QVector<Password> m_passwords;
 };
 
