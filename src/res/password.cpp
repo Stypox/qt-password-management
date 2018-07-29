@@ -1,8 +1,8 @@
 #include "password.h"
 #include "resources.h"
 #include <QJsonDocument>
+#include <QDebug>
 
-Password::Password() {}
 bool Password::load(const QJsonObject& passwordJson) {
 	if (!passwordJson.contains(res::json::pName) || !passwordJson[res::json::pName].isString() ||
 			!passwordJson.contains(res::json::pPassword) || !passwordJson[res::json::pPassword].isString() ||
@@ -24,4 +24,9 @@ QJsonValue Password::toJson() const {
 	passwordJson = passwordJson.arg(name).arg(password).arg(email).arg(username).arg(description);
 
 	return QJsonDocument::fromJson(passwordJson.toUtf8()).object();
+}
+
+void Password::debug() const {
+	qDebug() << "Password:    " << " Name:" << name << " Password:" << password << " Email:" << email << " Username:" << username
+			 << " Description:" << description << " Json:" << QJsonDocument{toJson().toObject()}.toJson(QJsonDocument::JsonFormat::Compact);
 }

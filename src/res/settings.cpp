@@ -34,10 +34,9 @@ void Settings::reset() {
 	loaded = false;
 }
 
-void Settings::debug() {
-	qDebug() << "Settings    " << " Language:" << static_cast<int>(language) << " Pwned:" << pwnedActive << " Json:" << QJsonDocument{toJson().toObject()}.toBinaryData();
+void Settings::debug() const {
+	qDebug() << "Settings:    " << " Language:" << static_cast<int>(language) << " Pwned:" << pwnedActive << " Json:" << QJsonDocument{toJson().toObject()}.toJson(QJsonDocument::JsonFormat::Compact);
 }
-
 
 
 bool extractData(const QByteArray& dataJson, Settings& settings, QVector<Password>& passwords) {
@@ -45,6 +44,7 @@ bool extractData(const QByteArray& dataJson, Settings& settings, QVector<Passwor
 	passwords.resize(0);
 
 	QJsonDocument dataDocument = QJsonDocument::fromBinaryData(dataJson);
+	qDebug() << dataDocument.toJson(QJsonDocument::JsonFormat::Compact);
 	if (!dataDocument.isObject()) {
 		settings.loaded = false;
 		return false;
@@ -72,9 +72,10 @@ QByteArray buildData(const Settings& settings, const QVector<Password>& password
 	QJsonObject data {QJsonDocument::fromJson(res::json::basicStructure).object()};
 
 	data[res::json::settings] = settings.toJson();
-	for (auto&& password : passwords) {
-		data[res::json::passwordArray].toArray().push_back(password.toJson());
-	}
+	QJsonArray passwordsJsonArray{};
+	for (auto&& password : passwords)
+		passwordsJsonArray.push_back(password.toJson());
+	data[res::json::passwordArray] = passwordsJsonArray;
 
 	return QJsonDocument{data}.toBinaryData();
 }

@@ -109,7 +109,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="buttonsSpacerLeft">
+        <spacer name="buttonsLeftSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -125,7 +125,7 @@
         <widget class="QComboBox" name="languageEditor"/>
        </item>
        <item>
-        <spacer name="buttonsSpacerRight">
+        <spacer name="buttonsRightSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -150,6 +150,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>usernameEditor</tabstop>
+  <tabstop>passwordEditor</tabstop>
+  <tabstop>login</tabstop>
+  <tabstop>create</tabstop>
+  <tabstop>languageEditor</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

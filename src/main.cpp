@@ -1,11 +1,16 @@
 #include "win/passwordswindow.h"
 #include <QApplication>
 #include <QDebug>
-#include "res/cryptography.h"
+#include <QLoggingCategory>
 
 res::Config res::config{};
 
 int main(int argc, char *argv[]) {
+	QLoggingCategory::setFilterRules("*.debug=true\n"
+									 "qt.qpa.input*.debug=false\n"
+									 "qt.widgets.gestures.debug=false\n"
+									 "qt.widgets.gestures.info=false\n"
+									 "qt.widgets.gestures.warning=false\n");
 	res::debug();
 
 	QApplication app {argc, argv};

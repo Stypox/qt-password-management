@@ -3,9 +3,10 @@
 
 #include <QMainWindow>
 #include <QVector>
-#include "logindialog.h"
+#include <memory>
 #include "src/res/settings.h"
 #include "src/res/password.h"
+#include "src/res/passwordwidget.h"
 
 namespace Ui {
 class PasswordsWindow;
@@ -19,13 +20,33 @@ public:
 	~PasswordsWindow();
 
 	void loadData();
+
+private:
 	void saveData();
+	void updateLabels();
+	void updatePasswords();
+
+private slots:
+	void newPassword();
+	void help();
+	void settings();
+	void logout();
+
+	void addPassword(Password password);
+
+	void editPassword(int index);
+	void removePassword(int index);
+	void changeItemSize(int index, QSize size);
+
 
 private:
 	Ui::PasswordsWindow* ui;
+
 	Settings m_settings;
 	UserData m_userData;
 	QVector<Password> m_passwords;
+
+	QVector<std::shared_ptr<PasswordWidget>> m_widgets;
 };
 
 #endif // PASSWORDSWINDOW_H

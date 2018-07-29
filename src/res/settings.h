@@ -13,7 +13,7 @@ struct Settings {
 	QJsonValue toJson() const;
 	void reset();
 
-	void debug();
+	void debug() const;
 
 	bool loaded;
 

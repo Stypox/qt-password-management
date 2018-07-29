@@ -1,4 +1,4 @@
-#ifndef RESOURCES_H
+﻿#ifndef RESOURCES_H
 #define RESOURCES_H
 #include <QFont>
 #include <QStandardPaths>
@@ -34,11 +34,12 @@ namespace res {
 	class Config {
 	public:
 		Config();
+		~Config();
 
 		const QString& dataDir() const;
 		const Lang& language() const;
 		void setLanguage(const Lang& language);
-	private:
+	//private:
 		void save() const;
 
 		const QString m_filename;
@@ -52,6 +53,8 @@ namespace res {
 
 	constexpr int iconFontSize {(OS_MOBILE ? 35 : 15)};
 	const QFont iconFont {"Bitstream Charter", iconFontSize};
+	constexpr int passwordWidgetClosedHeight{(OS_MOBILE ? 150 : 45)};
+	constexpr int passwordWidgetOpenedHeight{(OS_MOBILE ? 400 : 140)};
 
 	//s stands for "settings" and p for "password"
 	namespace json {
@@ -73,18 +76,40 @@ namespace res {
 		{
 			Lang::en, {
 				{"langName", "English"},
-				{"", ""},
+				{"yes", "Yes"},
+				{"no", "No"},
 			}
 		},
 		{
 			Lang::it, {
 				{"langName", "Italiano"},
+				{"yes", QString::fromWCharArray(L"Sì")},
+				{"no", "No"},
+			}
+		},
+	};
+	const QHash<Lang, QHash<QString, QString>> passwordsLabels {
+		{
+			Lang::en, {
+				{"windowTitle", "Password management"},
+				{"usernameDefault", ""},
+				{"questionRemovalTitle", "Removing %1..."},
+				{"questionRemoval", "Do you really want to remove password %1?"},
+			}
+		},
+		{
+			Lang::it, {
+				{"windowTitle", "Gestione password"},
+				{"usernameDefault", ""},
+				{"questionRemovalTitle", "Rimuovendo %1..."},
+				{"questionRemoval", "Vuoi davvero rimuovere la password %1?"},
 			}
 		},
 	};
 	const QHash<Lang, QHash<QString, QString>> loginLabels {
 		{
 			Lang::en, {
+				{"windowTitle", "Login"},
 				{"usernameTitle", "Username:"},
 				{"passwordTitle", "Password:"},
 				{"create", "Create"},
@@ -103,19 +128,62 @@ namespace res {
 		},
 		{
 			Lang::it, {
+				{"windowTitle", "Accesso"},
 				{"usernameTitle", "Username:"},
 				{"passwordTitle", "Password:"},
 				{"create", "Crea"},
-				{"login", "Entra"},
+				{"login", "Accedi"},
 				{"noError", ""},
-				{"errInvalidPassword", "Password e' lunga tra 8 e 31"},
+				{"errInvalidPassword", QString::fromWCharArray(L"Password è lunga tra 8 e 31")},
 				{"errFileNotFound", "Quest'account non esiste"},
 				{"errCorruptedFile", "File corrotto"},
 				{"errCorruptedData", "I dati decriptati sono corrotti"},
 				{"errInvalidFile", "Password errata o file corrotto"},
 				{"errPasswordsNotMatching", "Le password non corrispondono"},
-				{"errExistingAccount", "L'account esiste gia': il vecchio sara' backuppato"},
+				{"errExistingAccount", QString::fromWCharArray(L"L'account esiste già: il vecchio sarà backuppato")},
 				{"warReinsertPassword", "Reinserisci la password"},
+			}
+		},
+	};
+	const QHash<Lang, QHash<QString, QString>> addEditLabels {
+		{
+			Lang::en, {
+				{"editPassword", "Edit password"},
+				{"newPassword", "New password"},
+				{"nameTitle", "Name:"},
+				{"passwordTitle", "Password:"},
+				{"emailTitle", "Email:"},
+				{"usernameTitle", "Username:"},
+				{"ok", "Ok"},
+				{"cancel", "Cancel"},
+			}
+		},
+		{
+			Lang::it, {
+				{"editPassword", "Modifica password"},
+				{"newPassword", "Nuova password"},
+				{"nameTitle", "Nome:"},
+				{"passwordTitle", "Password:"},
+				{"emailTitle", "Email:"},
+				{"usernameTitle", "Username:"},
+				{"ok", "Ok"},
+				{"cancel", "Annulla"},
+			}
+		},
+	};
+	const QHash<Lang, QHash<QString, QString>> widgetLabels {
+		{
+			Lang::en, {
+				{"passwordTitle", "Password: "},
+				{"emailTitle", "Email: "},
+				{"usernameTitle", "Username: "},
+			}
+		},
+		{
+			Lang::it, {
+				{"passwordTitle", "Password: "},
+				{"emailTitle", "Email: "},
+				{"usernameTitle", "Username: "},
 			}
 		},
 	};

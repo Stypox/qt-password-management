@@ -7,11 +7,11 @@
 
 
 struct Password {
-	Password();
-
 	bool load(const QJsonObject& passwordJson);
 
 	QJsonValue toJson() const;
+
+	void debug() const;
 
 	QString name;
 	QString password;

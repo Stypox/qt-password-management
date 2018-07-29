@@ -2,24 +2,74 @@
 #define PASSWORDWIDGET_H
 #include <QObject>
 #include <QWidget>
+#include <QLayout>
+#include <QFormLayout>
+#include <QToolButton>
+#include <QLabel>
+#include <QTextBrowser>
 #include "password.h"
-
+#include "resources.h"
+#include "settings.h"
 
 class PasswordWidget : public QWidget {
 	Q_OBJECT
 public:
-	PasswordWidget(const int& listIndex, Password& password);
+	PasswordWidget(const int& index, Password& password, const Settings& settings, QWidget* parent, const bool& opened = false);
+	~PasswordWidget();
 
-private slots:
-	void setLittle();
-	void setBig();
+	static constexpr int getHeight(const bool& opened);
+	int getHeight() const;
+	bool isOpened() const;
 
-signals:
-	void edit(const int& listIndex);
+	void setIndex(const int& index);
 
 private:
-	int m_listIndex;
+	void updateLabels();
+
+	void buildClosedLay();
+	void buildOpenedLay();
+
+private slots:
+	void toEdit();
+	void toRemove();
+
+	void setClosed();
+	void setOpened();
+
+signals:
+	void edit(int index);
+	void remove(int index);
+	void sizeChanged(int index, QSize item);
+
+private:
+	int m_index;
 	Password& m_password;
+	const Settings& m_settings;
+	bool m_opened;
+
+	QHBoxLayout* m_closedLay;
+	QToolButton* m_openBut;
+	QLabel* m_closedNameLab;
+
+	QHBoxLayout* m_openedLay;
+	QFormLayout* m_labelsLay;
+	QVBoxLayout* m_buttonsLay;
+
+	QToolButton* m_closeBut;
+	QToolButton* m_editBut;
+	QToolButton* m_removeBut;
+
+	QLabel* m_passwordTitle;
+	QLabel* m_emailTitle;
+	QLabel* m_usernameTitle;
+
+	QLabel* m_openedNameLab;
+	QLabel* m_passwordLab;
+	QLabel* m_emailLab;
+	QLabel* m_usernameLab;
+	QTextBrowser* m_descriptionLab;
+
+	QWidget swapOpen, swapClose;
 };
 
 #endif // PASSWORDWIDGET_H

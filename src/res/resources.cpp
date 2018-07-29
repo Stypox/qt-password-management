@@ -29,6 +29,9 @@ namespace res {
 		else
 			m_language = Lang::def;
 	}
+	Config::~Config() {
+		save();
+	}
 	void Config::save() const {
 		QFile configFile {m_directory + m_filename};
 		configFile.open(QIODevice::WriteOnly);

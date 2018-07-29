@@ -11,7 +11,7 @@ LoginDialog::LoginDialog(Settings& settings, UserData& userData, QVector<Passwor
 	QDialog(parent), ui(new Ui::LoginDialog), m_settings(settings), m_userData(userData), m_passwords(passwords) {
 	ui->setupUi(this);
 
-#ifdef Q_OS_ANDROID
+#if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
 
@@ -100,7 +100,7 @@ void LoginDialog::create() {
 			return;
 		}
 
-		m_settings.load();
+		m_settings.load(res::config.language());
 		m_userData = UserData{username, password};
 
 		QFile dataFile {res::config.dataDir() + username + res::dataFileExt};
