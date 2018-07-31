@@ -9,11 +9,12 @@
 
 LoginDialog::LoginDialog(Settings& settings, UserData& userData, QVector<Password>& passwords, QWidget *parent) :
 	QDialog(parent), ui(new Ui::LoginDialog), m_settings(settings), m_userData(userData), m_passwords(passwords) {
-	ui->setupUi(this);
-
+	ui->setupUi(this);	
+	setInputMethodHints(res::inputMethod);
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
+	setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
 
 	m_settings.reset();
 	m_passwords.resize(0);

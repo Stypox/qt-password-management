@@ -9,21 +9,23 @@
 #include "logindialog.h"
 #include "addeditdialog.h"
 #include "settingsdialog.h"
+#include "infodialog.h"
 
 PasswordsWindow::PasswordsWindow(QWidget* parent) : //TODO WINDOW TITLE CHANGING
 	QMainWindow(parent), ui(new Ui::PasswordsWindow) {
 	ui->setupUi(this);
+	setInputMethodHints(res::inputMethod);
 
 	ui->newPassword->setFont(res::iconFont);
-	ui->help->setFont(res::iconFont);
-	ui->usernameViewer->clear();
+	ui->info->setFont(res::iconFont);
+	ui->usernameViewer->setText(res::passwordsLabels[res::config.language()]["usernameDefault"]);
 	ui->settings->setFont(res::iconFont);
 	ui->logout->setFont(res::iconFont);
 
 	connect(ui->newPassword, SIGNAL(clicked(bool)), this, SLOT(newPassword()));
-	connect(ui->help, SIGNAL(clicked(bool)), this, SLOT(help()));
+	connect(ui->info, SIGNAL(clicked(bool)), this, SLOT(info()));
 	connect(ui->settings, SIGNAL(clicked(bool)), this, SLOT(settings()));
-	connect(ui->logout, SIGNAL(clicked(bool)), this, SLOT(logout()));
+	connect(ui->logout, SIGNAL(clicked(bool)), this, SLOT(logout()));	
 }
 PasswordsWindow::~PasswordsWindow() {
 	m_settings.debug();
@@ -91,8 +93,9 @@ void PasswordsWindow::newPassword() {
 	AddEditDialog addEditDialog{m_settings, this};
 	addEditDialog.exec();
 }
-void PasswordsWindow::help() {
-
+void PasswordsWindow::info() {
+	InfoDialog infoDialog{};
+	infoDialog.exec();
 }
 void PasswordsWindow::settings() {
 	SettingsDialog settingsDialog{m_settings, m_userData, m_passwords};

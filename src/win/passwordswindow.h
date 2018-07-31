@@ -29,7 +29,7 @@ private:
 
 private slots:
 	void newPassword();
-	void help();
+	void info();
 	void settings();
 	void logout();
 

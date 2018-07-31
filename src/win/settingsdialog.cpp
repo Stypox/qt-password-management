@@ -6,8 +6,8 @@
 SettingsDialog::SettingsDialog(Settings& settings, UserData& userData, const QVector<Password>& passwords, QWidget *parent) :
 	QDialog{parent}, ui{new Ui::SettingsDialog}, m_settings{settings},
 	m_userData{userData}, m_passwords{passwords} {
-	ui->setupUi(this);
-
+	ui->setupUi(this);	
+	setInputMethodHints(res::inputMethod);
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif

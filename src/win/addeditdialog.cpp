@@ -8,7 +8,7 @@ AddEditDialog::AddEditDialog(Settings& settings, QWidget* parent) :
 AddEditDialog::AddEditDialog(Password* password, Settings& settings, QWidget *parent) :
 	QDialog(parent), ui(new Ui::AddEditDialog), m_edit{password != nullptr}, m_password{password}, m_settings{settings} {
 	ui->setupUi(this);
-
+	setInputMethodHints(res::inputMethod);
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
@@ -33,7 +33,7 @@ AddEditDialog::~AddEditDialog() {
 void AddEditDialog::updateLabels() {
 	const QHash<QString, QString>& labels {res::addEditLabels[m_settings.language]};
 	if (m_edit)
-		ui->title->setText(labels["editPassword"]);
+		ui->title->setText(labels["editPassword"].arg(m_password->name));
 	else
 		ui->title->setText(labels["newPassword"]);
 	ui->nameTitle->setText(labels["nameTitle"]);

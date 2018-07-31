@@ -56,7 +56,7 @@ namespace res {
 	constexpr int passwordWidgetClosedHeight{(OS_MOBILE ? 150 : 45)};
 	constexpr int passwordWidgetOpenedHeight{(OS_MOBILE ? 400 : 140)};
 
-	Qt::InputMethodHint inputMethod = Qt::ImhPreferLatin | Qt::InputMethodHint::ImhNoEditMenu | Qt::ImhNoTextHandles;
+	constexpr Qt::InputMethodHints inputMethod = Qt::ImhPreferLatin | Qt::ImhNoEditMenu | Qt::ImhNoTextHandles;
 
 	//s stands for "settings" and p for "password"
 	namespace json {
@@ -213,7 +213,7 @@ namespace res {
 				{"removalConfirmationDialogTitle", "Removal confirmation dialog"},
 				{"pwnedTitle", "Have I Been Pwned"},
 				{"passwordTitle", "New password:"},
-				{"reinsertTitle", "Reinsert:"},
+				{"reinsertPasswordTitle", "Reinsert:"},
 				{"backup", "Backup"},
 				{"resetSettings", "Reset settings"},
 				{"ok", sharedLabels[Lang::en]["ok"]},

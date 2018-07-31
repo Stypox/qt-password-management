@@ -29,37 +29,34 @@ SOURCES += \
     src/win/passwordswindow.cpp \
     src/win/logindialog.cpp \
     src/win/addeditdialog.cpp \
-    src/win/helpdialog.cpp \
     src/win/settingsdialog.cpp \
-    src/win/pwneddialog.cpp \
     src/res/passwordwidget.cpp \
     src/res/resources.cpp \
     src/res/settings.cpp \
     src/res/password.cpp \
     src/simplecrypt/simplecrypt.cpp \
-    src/res/cryptography.cpp
+    src/res/cryptography.cpp \
+    src/win/infodialog.cpp
 
 HEADERS += \
     src/win/passwordswindow.h \
     src/win/logindialog.h \
     src/win/addeditdialog.h \
-    src/win/helpdialog.h \
     src/win/settingsdialog.h \
-    src/win/pwneddialog.h \
     src/res/passwordwidget.h \
     src/res/resources.h \
     src/res/settings.h \
     src/res/password.h \
     src/simplecrypt/simplecrypt.h \
-    src/res/cryptography.h
+    src/res/cryptography.h \
+    src/win/infodialog.h
 
 FORMS += \
     src/win/passwordswindow.ui \
     src/win/logindialog.ui \
     src/win/addeditdialog.ui \
-    src/win/helpdialog.ui \
     src/win/settingsdialog.ui \
-    src/win/pwneddialog.ui
+    src/win/infodialog.ui
 
 CONFIG += mobility
 MOBILITY = 
