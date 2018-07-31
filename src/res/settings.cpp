@@ -6,19 +6,37 @@
 Settings::Settings() : loaded(false) {}
 
 bool Settings::load(const QJsonObject& settingsJson) {
-
 	language = static_cast<res::Lang>(settingsJson[res::json::sLanguage].toInt(static_cast<int>(res::Lang::max) + 1));
-	if (language > res::Lang::max || language < res::Lang::min || !settingsJson[res::json::sPwnedActive].isBool())
-		return false;
-	pwnedActive = settingsJson[res::json::sPwnedActive].toBool();
+	if (language > res::Lang::max || language < res::Lang::min)
+		language = res::Lang::def;
+
+	if (!settingsJson.contains(res::json::sDarkThemeActive) || !settingsJson[res::json::sDarkThemeActive].isBool())
+		darkThemeActive = false;
+	else
+		darkThemeActive = settingsJson[res::json::sDarkThemeActive].toBool();
+
+	if (!settingsJson.contains(res::json::sRemovalConfirmationDialogActive) || !settingsJson[res::json::sRemovalConfirmationDialogActive].isBool())
+		removalConfirmationDialogActive = true;
+	else
+		removalConfirmationDialogActive = settingsJson[res::json::sRemovalConfirmationDialogActive].toBool();
+
+	if (!settingsJson.contains(res::json::sPwnedActive) || !settingsJson[res::json::sPwnedActive].isBool())
+		pwnedActive = false;
+	else
+		pwnedActive = settingsJson[res::json::sPwnedActive].toBool();
+
 	loaded = true;
 	return true;
 }
-bool Settings::load(const res::Lang& Language, const bool& PwnedActive) {
+bool Settings::load(const res::Lang& Language, const bool& DarkThemeActive, const bool& RemovalConfirmationDialogActive, const bool& PwnedActive) {
 	language = Language;
 	if (language > res::Lang::max || language < res::Lang::min)
 		return false;
+
+	darkThemeActive = DarkThemeActive;
+	removalConfirmationDialogActive = RemovalConfirmationDialogActive;
 	pwnedActive = PwnedActive;
+
 	loaded = true;
 	return true;
 }
@@ -26,7 +44,10 @@ QJsonValue Settings::toJson() const {
 	if (!loaded)
 		return QJsonValue{};
 	QString settingsJson {res::json::settingsStructure};
-	settingsJson = settingsJson.arg(static_cast<int>(language)).arg(pwnedActive ? "true" : "false");
+	settingsJson = settingsJson.arg(static_cast<int>(language))
+			.arg(darkThemeActive ? "true" : "false")
+			.arg(removalConfirmationDialogActive ? "true" : "false")
+			.arg(pwnedActive ? "true" : "false");
 
 	return QJsonDocument::fromJson(settingsJson.toUtf8()).object();
 }
@@ -35,7 +56,12 @@ void Settings::reset() {
 }
 
 void Settings::debug() const {
-	qDebug() << "Settings:    " << " Language:" << static_cast<int>(language) << " Pwned:" << pwnedActive << " Json:" << QJsonDocument{toJson().toObject()}.toJson(QJsonDocument::JsonFormat::Compact);
+	qDebug() << "Settings:    "
+			 << " language:" << static_cast<int>(language)
+			 << " darkThemeActive:" << darkThemeActive
+			 << " removalConfirmationDialogActive:" << removalConfirmationDialogActive
+			 << " pwnedActive:" << pwnedActive
+			 << " json:" << QJsonDocument{toJson().toObject()}.toJson(QJsonDocument::JsonFormat::Compact);
 }
 
 

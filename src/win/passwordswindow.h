@@ -24,6 +24,7 @@ public:
 private:
 	void saveData();
 	void updateLabels();
+	void updateColors();
 	void updatePasswords();
 
 private slots:

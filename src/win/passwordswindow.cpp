@@ -1,14 +1,16 @@
 #include "passwordswindow.h"
 #include "ui_passwordswindow.h"
 #include <QMessageBox>
+#include <QPalette>
 #include <QDebug>
 #include "src/res/resources.h"
 #include "src/res/cryptography.h"
 #include "src/res/passwordwidget.h"
 #include "logindialog.h"
 #include "addeditdialog.h"
+#include "settingsdialog.h"
 
-PasswordsWindow::PasswordsWindow(QWidget* parent) :
+PasswordsWindow::PasswordsWindow(QWidget* parent) : //TODO WINDOW TITLE CHANGING
 	QMainWindow(parent), ui(new Ui::PasswordsWindow) {
 	ui->setupUi(this);
 
@@ -37,10 +39,13 @@ void PasswordsWindow::loadData() {
 	loginDialog.exec();
 	if (!m_settings.loaded)
 		exit(0);
-	updateLabels();
+
 	m_settings.debug();
 	for (auto&& password : m_passwords)
 		password.debug();
+
+	updateLabels();
+	updateColors();
 	updatePasswords();
 }
 
@@ -56,6 +61,9 @@ void PasswordsWindow::updateLabels() {
 		ui->usernameViewer->setText(m_userData.username);
 	else
 		ui->usernameViewer->setText(res::sharedLabels[res::config.language()]["usernameDefault"]);
+}
+void PasswordsWindow::updateColors() {
+
 }
 void PasswordsWindow::updatePasswords() {
 	QVector<bool> widgetsOpened;
@@ -87,7 +95,12 @@ void PasswordsWindow::help() {
 
 }
 void PasswordsWindow::settings() {
-
+	SettingsDialog settingsDialog{m_settings, m_userData, m_passwords};
+	settingsDialog.exec();
+	saveData();
+	updateLabels();
+	updateColors();
+	updatePasswords();
 }
 void PasswordsWindow::logout() {
 	saveData();
@@ -112,10 +125,11 @@ void PasswordsWindow::editPassword(int index) {
 	saveData();
 }
 void PasswordsWindow::removePassword(int index) {
-	int reply = QMessageBox::question(this,
+	if (!m_settings.removalConfirmationDialogActive ||
+		QMessageBox::question(this,
 			QString{res::passwordsLabels[m_settings.language]["questionRemovalTitle"]}.arg(m_passwords.at(index).name),
-			QString{res::passwordsLabels[m_settings.language]["questionRemoval"]}.arg(m_passwords.at(index).name));
-	if (reply == QMessageBox::Yes) {
+			QString{res::passwordsLabels[m_settings.language]["questionRemoval"]}.arg(m_passwords.at(index).name))
+		== QMessageBox::Yes) {
 		m_passwords.removeAt(index);
 		m_widgets.removeAt(index);
 		saveData();

@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="errorMessage">
      <property name="text">
       <string>ERROR_MESSAGE</string>
      </property>
@@ -113,14 +113,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="confirmationDialog">
+        <widget class="QCheckBox" name="removalConfirmationDialog">
          <property name="text">
           <string>REMOVAL_CONFIRMATION_DIALOG</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="haveIBeenPwned">
+        <widget class="QCheckBox" name="pwned">
          <property name="text">
           <string>HAVE_I_BEEN_POWNED</string>
          </property>
@@ -144,7 +144,7 @@
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line">
+    <widget class="Line" name="line3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -175,17 +175,17 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="password"/>
+        <widget class="QLineEdit" name="passwordEditor"/>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="repeatPasswordTitle">
+        <widget class="QLabel" name="reinsertPasswordTitle">
          <property name="text">
-          <string>REPEAT</string>
+          <string>REINSERT</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="repeatPassword"/>
+        <widget class="QLineEdit" name="reinsertPasswordEditor"/>
        </item>
       </layout>
      </item>
