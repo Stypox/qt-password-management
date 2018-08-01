@@ -94,7 +94,7 @@ void PasswordsWindow::newPassword() {
 	addEditDialog.exec();
 }
 void PasswordsWindow::info() {
-	InfoDialog infoDialog{};
+	InfoDialog infoDialog{m_passwords, m_settings};
 	infoDialog.exec();
 }
 void PasswordsWindow::settings() {

@@ -244,6 +244,30 @@ namespace res {
 			}
 		},
 	};
+	const QHash<Lang, QHash<QString, QString>> infoLabels {
+		{
+			Lang::en, {
+				{"pwnedTitle", "Have I Been Pwned?"},
+				{"pwnedEmail", "%1: seen in %2 breaches"},
+				{"pwnedPassword", "%1: seen %2 times before"},
+				{"helpTitle", "Help"},
+				{"helpText", "<html><head/><body><p>TO<br/>DO</p></body></html>"},
+				{"infoTitle", "Info"},
+				{"infoText", "<html><head/><body><p>TO<br/>DO</p></body></html>"},
+			}
+		},
+		{
+			Lang::it, {
+				{"pwnedTitle", "Have I Been Pwned?"},
+				{"pwnedEmail", "%1: compare in %2 brecce"},
+				{"pwnedPassword", "%1: già vista %2 volte"},
+				{"helpTitle", "Aiuto"},
+				{"helpText", "<html><head/><body><p>DA<br/>FARE</p></body></html>"},
+				{"infoTitle", "Informazioni"},
+				{"infoText", "<html><head/><body><p>DA<br/>FARE</p></body></html>"},
+			}
+		},
+	};
 
 	void debug();
 }
