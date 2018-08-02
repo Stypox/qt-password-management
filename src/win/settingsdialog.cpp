@@ -6,8 +6,7 @@
 SettingsDialog::SettingsDialog(Settings& settings, UserData& userData, const QVector<Password>& passwords, QWidget *parent) :
 	QDialog{parent}, ui{new Ui::SettingsDialog}, m_settings{settings},
 	m_userData{userData}, m_passwords{passwords} {
-	ui->setupUi(this);	
-	setInputMethodHints(res::inputMethod);
+	ui->setupUi(this);
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
@@ -43,6 +42,8 @@ void SettingsDialog::updateLabels() {
 	}
 
 	const QHash<QString, QString>& labels = res::settingsLabels[m_settings.language];
+	setWindowTitle(labels["windowTitle"]);
+
 	ui->languageTitle->setText(labels["languageTitle"]);
 	ui->darkTheme->setText(labels["darkThemeTitle"]);
 	ui->removalConfirmationDialog->setText(labels["removalConfirmationDialogTitle"]);
@@ -78,32 +79,43 @@ void SettingsDialog::resetSettings() {
 }
 
 void SettingsDialog::ok() {
-	apply();
-	close();
+	if (apply())
+		close();
 }
-void SettingsDialog::apply() {
+bool SettingsDialog::apply() {
 	QByteArray newPassword = ui->passwordEditor->text().toUtf8();
 	if (newPassword == ui->reinsertPasswordEditor->text()) {
 		if (!newPassword.isEmpty() && (newPassword.length() < res::passwordMinLen || newPassword.length() > res::passwordMaxLen))
-			return;
+			return false;
 	}
 
-	bool ok;
-	QString password = QInputDialog::getText(this, "Insert password", "Password:", QLineEdit::Password, "", &ok);
-	if (ok && password == m_userData.password) {
-		m_settings.language = static_cast<res::Lang>(ui->languageEditor->currentIndex());
-		m_settings.darkThemeActive = ui->darkTheme->isChecked();
-		m_settings.removalConfirmationDialogActive = ui->removalConfirmationDialog->isChecked();
-		m_settings.pwnedActive = ui->pwned->isChecked();
-		if (!newPassword.isEmpty())
-			m_userData.password = newPassword;
-
-		QFile dataFile{res::config.dataDir() + m_userData.username + res::dataFileExt};
-		dataFile.open(QIODevice::WriteOnly);
-		dataFile.write(res::encrypt(buildData(m_settings, m_passwords), m_userData.password));
-		dataFile.close();
-		updateLabels();
+	while (1) {
+		bool ok;
+		QString password = QInputDialog::getText(this, res::settingsLabels[m_settings.language]["passwordRequestWindowTitle"], res::settingsLabels[m_settings.language]["passwordRequestTitle"], QLineEdit::Password, "", &ok);
+		if (ok) {
+			if (password == m_userData.password)
+				break;
+		}
+		else
+			return false;
 	}
+
+	m_settings.language = static_cast<res::Lang>(ui->languageEditor->currentIndex());
+	m_settings.darkThemeActive = ui->darkTheme->isChecked();
+	m_settings.removalConfirmationDialogActive = ui->removalConfirmationDialog->isChecked();
+	m_settings.pwnedActive = ui->pwned->isChecked();
+	if (!newPassword.isEmpty())
+		m_userData.password = newPassword;
+
+	QFile dataFile{res::config.dataDir() + m_userData.username + res::dataFileExt};
+	dataFile.open(QIODevice::WriteOnly);
+	dataFile.write(res::encrypt(buildData(m_settings, m_passwords), m_userData.password));
+	dataFile.close();
+
+	updateLabels();
+	ui->backup->setEnabled(true);
+
+	return true;
 }
 
 void SettingsDialog::passwordChanged() {

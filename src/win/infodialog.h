@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QVector>
+#include <QStringList>
 #include "src/res/settings.h"
 #include "src/res/password.h"
 
@@ -19,12 +20,20 @@ public:
 
 private:
 	void updateLabels();
+	void checkPwned();
+
+private slots:
+	void nextPassword();
+	void nextEmail();
 
 private:
 	Ui::InfoDialog *ui;
 
 	const QVector<Password> m_passwords;
 	const Settings& m_settings;
+
+	QStringList m_passwordsToCheck;
+	QStringList m_emailsToCheck;
 };
 
 #endif // INFODIALOG_H

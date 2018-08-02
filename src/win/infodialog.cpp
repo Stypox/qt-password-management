@@ -1,5 +1,8 @@
 #include "infodialog.h"
 #include "ui_infodialog.h"
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QSslSocket>
 #include "src/res/resources.h"
 
 InfoDialog::InfoDialog(const QVector<Password> passwords, const Settings& settings, QWidget *parent) :
@@ -20,6 +23,7 @@ InfoDialog::~InfoDialog() {
 
 void InfoDialog::updateLabels() {
 	const QHash<QString, QString>& labels = res::infoLabels[m_settings.language];
+	setWindowTitle(labels["windowTitle"]);
 	ui->pwnedTitle->setText(labels["pwnedTitle"]);
 	ui->pwnedLoading->setText(labels["pwnedLoading"]);
 	ui->helpTitle->setText(labels["helpTitle"]);
@@ -28,5 +32,20 @@ void InfoDialog::updateLabels() {
 	ui->infoText->setText(labels["infoText"]);
 }
 void InfoDialog::checkPwned() {
+	for (auto password : m_passwords) {
+		if (!password.password.isEmpty())
+			m_passwordsToCheck.push_back(password.password);
+		if (res::isEmailValid(password.email))
+			m_emailsToCheck.push_back(password.email);
+	}
+
+	nextPassword();
+	nextEmail();
+}
+
+void InfoDialog::nextPassword() {
+
+}
+void InfoDialog::nextEmail() {
 
 }

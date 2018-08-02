@@ -1,4 +1,5 @@
 #include "resources.h"
+#include <QRegExp>
 #include <QDebug>
 
 namespace res {
@@ -55,4 +56,10 @@ namespace res {
 		qDebug() << "Data path:" << config.dataDir();
 		qDebug() << "Language: " << sharedLabels[config.language()]["langName"];
 	}
+
+	bool isEmailValid(QString email) {
+		static QRegExp emailValidator("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b", Qt::CaseInsensitive, QRegExp::RegExp);
+		return emailValidator.exactMatch(email);
+	}
+
 }

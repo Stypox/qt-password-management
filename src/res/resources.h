@@ -56,7 +56,7 @@ namespace res {
 	constexpr int passwordWidgetClosedHeight{(OS_MOBILE ? 150 : 45)};
 	constexpr int passwordWidgetOpenedHeight{(OS_MOBILE ? 400 : 140)};
 
-	constexpr Qt::InputMethodHints inputMethod = Qt::ImhPreferLatin | Qt::ImhNoEditMenu | Qt::ImhNoTextHandles;
+	bool isEmailValid(QString email);
 
 	//s stands for "settings" and p for "password"
 	namespace json {
@@ -80,6 +80,7 @@ namespace res {
 		{
 			Lang::en, {
 				{"langName", "English"},
+				{"toolName", "Password management"},
 				{"ok", "Ok"},
 				{"cancel", "Cancel"},
 				{"apply", "Apply"},
@@ -95,6 +96,7 @@ namespace res {
 		{
 			Lang::it, {
 				{"langName", "Italiano"},
+				{"toolName", "Gestione password"},
 				{"ok", "Ok"},
 				{"cancel", "Annulla"},
 				{"apply", "Applica"},
@@ -111,7 +113,8 @@ namespace res {
 	const QHash<Lang, QHash<QString, QString>> passwordsLabels {
 		{
 			Lang::en, {
-				{"windowTitle", "Password management - %1"},
+				{"defaultWindowTitle", sharedLabels[Lang::en]["toolName"]},
+				{"windowTitle", "%1 - " + sharedLabels[Lang::en]["toolName"]},
 				{"usernameDefault", ""},
 				{"questionRemovalTitle", "Removing %1..."},
 				{"questionRemoval", "Do you really want to remove password %1?"},
@@ -119,7 +122,8 @@ namespace res {
 		},
 		{
 			Lang::it, {
-				{"windowTitle", "Gestione password - %1"},
+				{"defaultWindowTitle", sharedLabels[Lang::it]["toolName"]},
+				{"windowTitle", "%1 - " + sharedLabels[Lang::it]["toolName"]},
 				{"usernameDefault", ""},
 				{"questionRemovalTitle", "Rimuovendo %1..."},
 				{"questionRemoval", "Vuoi davvero rimuovere la password %1?"},
@@ -129,7 +133,7 @@ namespace res {
 	const QHash<Lang, QHash<QString, QString>> loginLabels {
 		{
 			Lang::en, {
-				{"windowTitle", "Login - Password management"},
+				{"windowTitle", "Login - " + sharedLabels[Lang::en]["toolName"]},
 				{"usernameTitle", sharedLabels[Lang::en]["nameTitle"] + ":"},
 				{"passwordTitle", sharedLabels[Lang::en]["passwordTitle"] + ":"},
 				{"create", "Create"},
@@ -148,7 +152,7 @@ namespace res {
 		},
 		{
 			Lang::it, {
-				{"windowTitle", "Accesso - Gestione password"},
+				{"windowTitle", "Accesso - " + sharedLabels[Lang::it]["toolName"]},
 				{"usernameTitle", sharedLabels[Lang::it]["nameTitle"] + ":"},
 				{"passwordTitle", sharedLabels[Lang::it]["passwordTitle"] + ":"},
 				{"create", "Crea"},
@@ -169,8 +173,10 @@ namespace res {
 	const QHash<Lang, QHash<QString, QString>> addEditLabels {
 		{
 			Lang::en, {
+				{"editWindowTitle", "Edit - " + sharedLabels[Lang::en]["toolName"]},
+				{"newWindowTitle", "New - " + sharedLabels[Lang::en]["toolName"]},
 				{"editPassword", "Edit password - %1"},
-				{"newPassword", "New password - %1"},
+				{"newPassword", "New password"},
 				{"nameTitle", sharedLabels[Lang::en]["nameTitle"] + ":"},
 				{"passwordTitle", sharedLabels[Lang::en]["passwordTitle"] + ":"},
 				{"emailTitle", sharedLabels[Lang::en]["emailTitle"] + ":"},
@@ -179,8 +185,10 @@ namespace res {
 		},
 		{
 			Lang::it, {
+				{"editWindowTitle", "Modifica - " + sharedLabels[Lang::it]["toolName"]},
+				{"newWindowTitle", "Nuova - " + sharedLabels[Lang::it]["toolName"]},
 				{"editPassword", "Modifica password - %1"},
-				{"newPassword", "Nuova password - %1"},
+				{"newPassword", "Nuova password"},
 				{"nameTitle", sharedLabels[Lang::it]["nameTitle"] + ":"},
 				{"passwordTitle", sharedLabels[Lang::it]["passwordTitle"] + ":"},
 				{"emailTitle", sharedLabels[Lang::it]["emailTitle"] + ":"},
@@ -207,7 +215,7 @@ namespace res {
 	const QHash<Lang, QHash<QString, QString>> settingsLabels {
 		{
 			Lang::en, {
-				{"windowTitle", "Settings - %1"},
+				{"windowTitle", "Settings - " + sharedLabels[Lang::en]["toolName"]},
 				{"languageTitle", "Language:"},
 				{"darkThemeTitle", "Dark theme"},
 				{"removalConfirmationDialogTitle", "Removal confirmation dialog"},
@@ -219,6 +227,8 @@ namespace res {
 				{"ok", sharedLabels[Lang::en]["ok"]},
 				{"cancel", sharedLabels[Lang::en]["cancel"]},
 				{"apply", sharedLabels[Lang::en]["apply"]},
+				{"passwordRequestWindowTitle", "Insert password"},
+				{"passwordRequestTitle", sharedLabels[Lang::en]["passwordTitle"] + ":"},
 				{"noError", sharedLabels[Lang::en]["noError"]},
 				{"errInvalidPassword", sharedLabels[Lang::en]["errInvalidPassword"]},
 				{"errPasswordsNotMatching", sharedLabels[Lang::en]["errPasswordsNotMatching"]},
@@ -226,7 +236,7 @@ namespace res {
 		},
 		{
 			Lang::it, {
-				{"windowTitle", "Impostazioni - %1"},
+				{"windowTitle", "Impostazioni - " + sharedLabels[Lang::it]["toolName"]},
 				{"languageTitle", "Lingua:"},
 				{"darkThemeTitle", "Tema scuro"},
 				{"removalConfirmationDialogTitle", "Dialogo di conferma rimozione"},
@@ -238,6 +248,8 @@ namespace res {
 				{"ok", sharedLabels[Lang::it]["ok"]},
 				{"cancel", sharedLabels[Lang::it]["cancel"]},
 				{"apply", sharedLabels[Lang::it]["apply"]},
+				{"passwordRequestWindowTitle", "Inserisci password"},
+				{"passwordRequestTitle", sharedLabels[Lang::it]["passwordTitle"] + ":"},
 				{"noError", sharedLabels[Lang::it]["noError"]},
 				{"errInvalidPassword", sharedLabels[Lang::it]["errInvalidPassword"]},
 				{"errPasswordsNotMatching", sharedLabels[Lang::it]["errPasswordsNotMatching"]},
@@ -247,7 +259,9 @@ namespace res {
 	const QHash<Lang, QHash<QString, QString>> infoLabels {
 		{
 			Lang::en, {
+				{"windowTitle", "Info - " + sharedLabels[Lang::en]["toolName"]},
 				{"pwnedTitle", "Have I Been Pwned?"},
+				{"pwnedLoading", ""},
 				{"pwnedEmail", "%1: seen in %2 breaches"},
 				{"pwnedPassword", "%1: seen %2 times before"},
 				{"helpTitle", "Help"},
@@ -258,7 +272,9 @@ namespace res {
 		},
 		{
 			Lang::it, {
+				{"windowTitle", "Informazioni - " + sharedLabels[Lang::it]["toolName"]},
 				{"pwnedTitle", "Have I Been Pwned?"},
+				{"pwnedLoading", ""},
 				{"pwnedEmail", "%1: compare in %2 brecce"},
 				{"pwnedPassword", "%1: già vista %2 volte"},
 				{"helpTitle", "Aiuto"},

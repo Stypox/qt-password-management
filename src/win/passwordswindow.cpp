@@ -14,8 +14,6 @@
 PasswordsWindow::PasswordsWindow(QWidget* parent) : //TODO WINDOW TITLE CHANGING
 	QMainWindow(parent), ui(new Ui::PasswordsWindow) {
 	ui->setupUi(this);
-	setInputMethodHints(res::inputMethod);
-
 	ui->newPassword->setFont(res::iconFont);
 	ui->info->setFont(res::iconFont);
 	ui->usernameViewer->setText(res::passwordsLabels[res::config.language()]["usernameDefault"]);
@@ -59,10 +57,15 @@ void PasswordsWindow::saveData() {
 	}
 }
 void PasswordsWindow::updateLabels() {
-	if (m_settings.loaded)
+	const QHash<QString, QString>& labels {res::passwordsLabels[m_settings.loaded ? m_settings.language : res::config.language()]};
+	if (m_settings.loaded) {
+		setWindowTitle(labels["windowTitle"].arg(m_userData.username));
 		ui->usernameViewer->setText(m_userData.username);
-	else
-		ui->usernameViewer->setText(res::sharedLabels[res::config.language()]["usernameDefault"]);
+	}
+	else {
+		setWindowTitle(labels["defaultWindowTitle"]);
+		ui->usernameViewer->setText(labels["usernameDefault"]);
+	}
 }
 void PasswordsWindow::updateColors() {
 

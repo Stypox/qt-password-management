@@ -26,7 +26,7 @@ private slots:
 	void resetSettings();
 
 	void ok();
-	void apply();
+	bool apply();
 
 	void passwordChanged();
 	void disableBackup();

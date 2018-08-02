@@ -9,8 +9,7 @@
 
 LoginDialog::LoginDialog(Settings& settings, UserData& userData, QVector<Password>& passwords, QWidget *parent) :
 	QDialog(parent), ui(new Ui::LoginDialog), m_settings(settings), m_userData(userData), m_passwords(passwords) {
-	ui->setupUi(this);	
-	setInputMethodHints(res::inputMethod);
+	ui->setupUi(this);
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
@@ -122,6 +121,7 @@ void LoginDialog::changeLanguage(int index){
 
 void LoginDialog::updateLabels() {
 	const QHash<QString, QString>& labels = res::loginLabels[res::config.language()];
+	setWindowTitle(labels["windowTitle"]);
 	ui->usernameTitle->setText(labels["usernameTitle"]);
 	ui->passwordTitle->setText(labels["passwordTitle"]);
 	ui->create->setText(labels["create"]);
