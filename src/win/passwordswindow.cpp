@@ -138,6 +138,7 @@ void PasswordsWindow::settings() {
 void PasswordsWindow::logout() {
 	saveData();
 
+	m_settings.darkThemeActive = false;
 	m_passwords.resize(0);
 	updateLabels();
 	updateColors();
