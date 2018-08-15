@@ -71,6 +71,10 @@ void PasswordWidget::setIndex(const int& index) {
 }
 
 void PasswordWidget::updateLabels() {
+#if !OS_MOBILE
+	m_openBut->setArrowType(Qt::ArrowType::LeftArrow);
+	m_closeBut->setArrowType(Qt::ArrowType::DownArrow);
+#endif
 	m_openedNameLab->setAlignment(Qt::AlignCenter);
 	m_openBut->setAutoRaise(true);
 	m_closeBut->setAutoRaise(true);
