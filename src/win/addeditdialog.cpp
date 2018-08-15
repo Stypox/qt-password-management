@@ -43,6 +43,9 @@ void AddEditDialog::updateLabels() {
 	ui->passwordTitle->setText(labels["passwordTitle"]);
 	ui->emailTitle->setText(labels["emailTitle"]);
 	ui->usernameTitle->setText(labels["usernameTitle"]);
+
+	ui->ok->setText(labels["ok"]);
+	ui->cancel->setText(labels["cancel"]);
 }
 
 void AddEditDialog::ok() {
