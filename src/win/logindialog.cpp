@@ -65,6 +65,7 @@ void LoginDialog::login() {
 		}
 		m_userData = UserData{username, password};
 
+		res::config.setUsername(username);
 		close();
 	}
 	else {
@@ -111,6 +112,7 @@ void LoginDialog::create() {
 			backupFile.write(dataFile.readAll());
 		}
 
+		res::config.setUsername(username);
 		close();
 	}
 }
@@ -126,6 +128,8 @@ void LoginDialog::updateLabels() {
 	ui->passwordTitle->setText(labels["passwordTitle"]);
 	ui->create->setText(labels["create"]);
 	ui->login->setText(labels["login"]);
+
+	ui->usernameEditor->setText(res::config.username());
 }
 void LoginDialog::setError(const QString& key) {
 	qDebug() << "Login window error:" << key;

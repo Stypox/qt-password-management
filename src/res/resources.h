@@ -41,13 +41,18 @@ namespace res {
 
 		const QString& dataDir() const;
 		const Lang& language() const;
+		const QString& username() const;
+
 		void setLanguage(const Lang& language);
+		void setUsername(const QString& defaultUsername);
 	private:
 		void save() const;
 
 		const QString m_filename;
+
 		const QString m_directory;
 		Lang m_language;
+		QString m_defaultUsername;
 	};
 	extern Config config;
 

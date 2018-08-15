@@ -30,6 +30,13 @@ namespace res {
 			m_language = static_cast<Lang>(language);
 		else
 			m_language = Lang::def;
+
+		line = configFile.readLine();
+		if (!line.isEmpty() && line.back() == '\n')
+			line.chop(1);
+		if (!line.isEmpty() && line.back() == '\r')
+			line.chop(1);
+		m_defaultUsername = line;
 	}
 	Config::~Config() {
 		save();
@@ -38,16 +45,25 @@ namespace res {
 		QFile configFile {m_directory + m_filename};
 		configFile.open(QIODevice::WriteOnly);
 
-		configFile.write(QString::number(static_cast<int>(m_language)).toUtf8());
+		configFile.write((QString::number(static_cast<int>(m_language)) + "\n" + m_defaultUsername).toUtf8());
 	}
+
 	const QString& Config::dataDir() const {
 		return m_directory;
 	}
 	const Lang& Config::language() const {
 		return m_language;
 	}
+	const QString& Config::username() const {
+		return m_defaultUsername;
+	}
+
 	void Config::setLanguage(const Lang& language) {
 		m_language = language;
+		save();
+	}
+	void Config::setUsername(const QString& defaultUsername) {
+		m_defaultUsername = defaultUsername;
 		save();
 	}
 
