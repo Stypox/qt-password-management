@@ -1,7 +1,7 @@
 #include "passwordwidget.h"
 #include <QDebug>
 
-PasswordWidget::PasswordWidget(const int& index, Password& password, const Settings& settings, QWidget* parent, const bool& opened) :
+PasswordWidget::PasswordWidget(const int& index, const Password*password, const Settings& settings, QWidget* parent, const bool& opened) :
 	QWidget{parent}, m_index{index}, m_password{password},
 	m_settings(settings), m_opened(opened),
 	m_closedLay{new QHBoxLayout{}}, m_openBut{new QToolButton{}},
@@ -69,6 +69,11 @@ bool PasswordWidget::isOpened() const {
 void PasswordWidget::setIndex(const int& index) {
 	m_index = index;
 }
+void PasswordWidget::setPassword(const Password* password, bool update) {
+	m_password = password;
+	if (update)
+		updateLabels();
+}
 
 void PasswordWidget::updateLabels() {
 #if !OS_MOBILE
@@ -102,12 +107,12 @@ void PasswordWidget::updateLabels() {
 	m_emailTitle->setText(res::widgetLabels[m_settings.language]["emailTitle"]);
 	m_usernameTitle->setText(res::widgetLabels[m_settings.language]["usernameTitle"]);
 
-	m_closedNameLab->setText(m_password.name);
-	m_openedNameLab->setText(m_password.name);
-	m_passwordLab->setText(m_password.password);
-	m_emailLab->setText(m_password.email);
-	m_usernameLab->setText(m_password.username);
-	m_descriptionLab->setText(m_password.description);
+	m_closedNameLab->setText(m_password->name);
+	m_openedNameLab->setText(m_password->name);
+	m_passwordLab->setText(m_password->password);
+	m_emailLab->setText(m_password->email);
+	m_usernameLab->setText(m_password->username);
+	m_descriptionLab->setText(m_password->description);
 
 }
 
@@ -135,6 +140,7 @@ void PasswordWidget::buildOpenedLay() {
 }
 
 void PasswordWidget::toEdit() {
+	qDebug() << m_index << m_password;
 	edit(m_index);
 	updateLabels();
 }

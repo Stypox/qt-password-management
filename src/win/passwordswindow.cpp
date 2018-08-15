@@ -11,6 +11,27 @@
 #include "settingsdialog.h"
 #include "infodialog.h"
 
+template <typename T>
+void move_range(size_t start, size_t length, size_t dst, QVector<T> & v)
+{
+	typename QVector<T>::iterator first, middle, last;
+	if (start < dst)
+	{
+		first  = v.begin() + start;
+		middle = first + length;
+		last   = v.begin() + dst;
+	}
+	else
+	{
+		first  = v.begin() + dst;
+		middle = v.begin() + start;
+		last   = middle + length;
+	}
+	std::rotate(first, middle, last);
+}
+
+PasswordsWindow::PasswordsWindow(QApplication& app, QWidget* parent) : //TODO WINDOW TITLE CHANGING
+	QMainWindow{parent}, ui{new Ui::PasswordsWindow}, m_app{app} {
 	ui->setupUi(this);
 	ui->newPassword->setFont(res::iconFont);
 	ui->info->setFont(res::iconFont);
@@ -22,6 +43,7 @@
 	connect(ui->info, SIGNAL(clicked(bool)), this, SLOT(info()));
 	connect(ui->settings, SIGNAL(clicked(bool)), this, SLOT(settings()));
 	connect(ui->logout, SIGNAL(clicked(bool)), this, SLOT(logout()));
+	connect(ui->passwordList->model(), SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(movePasswords(QModelIndex, int, int, QModelIndex, int)));
 
 	ui->passwordList->setDragDropMode(QAbstractItemView::InternalMove);
 	ui->passwordList->setDragEnabled(true);
@@ -86,7 +108,7 @@ void PasswordsWindow::updatePasswords() {
 	m_widgets.resize(0);
 	for (int passwordIndex = 0; passwordIndex < m_passwords.size(); ++passwordIndex) {
 		m_widgets.push_back(std::shared_ptr<PasswordWidget>{new PasswordWidget
-			{passwordIndex, m_passwords[passwordIndex], m_settings, this, widgetsOpened.value(passwordIndex)}});
+			{passwordIndex, &m_passwords[passwordIndex], m_settings, this, widgetsOpened.value(passwordIndex)}});
 	}
 
 	ui->passwordList->clear();
@@ -126,14 +148,25 @@ void PasswordsWindow::logout() {
 
 void PasswordsWindow::addPassword(Password password) {
 	m_passwords.push_back(password);
-	m_widgets.push_back(std::shared_ptr<PasswordWidget>(new PasswordWidget{m_widgets.size(), password, m_settings, this}));
+	m_widgets.push_back(std::shared_ptr<PasswordWidget>(new PasswordWidget{m_widgets.size(), &m_passwords.back(), m_settings, this}));
 	saveData();
 	updatePasswords();
 }
 
+void PasswordsWindow::movePasswords(const QModelIndex&, int from, int, const QModelIndex&, int to) {
+	move_range(static_cast<size_t>(from), 1, static_cast<size_t>(to), m_passwords);
+	move_range(static_cast<size_t>(from), 1, static_cast<size_t>(to), m_widgets);
+	for (int index = 0; index < m_widgets.size(); ++index) {
+		m_widgets[index]->setIndex(index);
+		m_widgets[index]->setPassword(&m_passwords[index], false);
+	}
+
+	qDebug() << "DragDrop: " << from << to;
+	saveData();
+}
 void PasswordsWindow::editPassword(int index) {
-	AddEditDialog addEditDialog{&m_passwords[index], m_settings, this};
-	addEditDialog.exec();
+	AddEditDialog editDialog{&m_passwords[index], m_settings, this};
+	editDialog.exec();
 	saveData();
 }
 void PasswordsWindow::removePassword(int index) {

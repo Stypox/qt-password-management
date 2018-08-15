@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QVector>
+#include <QModelIndexList>
 #include <memory>
 #include "src/res/settings.h"
 #include "src/res/password.h"
@@ -35,6 +36,7 @@ private slots:
 
 	void addPassword(Password password);
 
+	void movePasswords(const QModelIndex&, int from, int, const QModelIndex&, int to);
 	void editPassword(int index);
 	void removePassword(int index);
 	void changeItemSize(int index, QSize size);

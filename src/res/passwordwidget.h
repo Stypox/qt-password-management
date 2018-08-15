@@ -14,7 +14,7 @@
 class PasswordWidget : public QWidget {
 	Q_OBJECT
 public:
-	PasswordWidget(const int& index, Password& password, const Settings& settings, QWidget* parent, const bool& opened = false);
+	PasswordWidget(const int& index, const Password* password, const Settings& settings, QWidget* parent, const bool& opened = false);
 	~PasswordWidget();
 
 	static constexpr int getHeight(const bool& opened);
@@ -22,6 +22,7 @@ public:
 	bool isOpened() const;
 
 	void setIndex(const int& index);
+	void setPassword(const Password* m_password, bool update = true);
 
 private:
 	void updateLabels();
@@ -43,7 +44,7 @@ signals:
 
 private:
 	int m_index;
-	Password& m_password;
+	const Password* m_password;
 	const Settings& m_settings;
 	bool m_opened;
 
