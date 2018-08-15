@@ -45,8 +45,8 @@ namespace res {
 				{"defaultWindowTitle", sharedLabels[Lang::en]["toolName"]},
 				{"windowTitle", "%1 - " + sharedLabels[Lang::en]["toolName"]},
 				{"usernameDefault", ""},
-				{"questionRemovalTitle", "Removing %1..."},
-				{"questionRemoval", "Do you really want to remove password %1?"},
+				{"questionRemovalTitle", "Removing \"%1\"..."},
+				{"questionRemoval", "Do you really want to remove password \"%1\"?"},
 			}
 		},
 		{
@@ -54,8 +54,8 @@ namespace res {
 				{"defaultWindowTitle", sharedLabels[Lang::it]["toolName"]},
 				{"windowTitle", "%1 - " + sharedLabels[Lang::it]["toolName"]},
 				{"usernameDefault", ""},
-				{"questionRemovalTitle", "Rimuovendo %1..."},
-				{"questionRemoval", "Vuoi davvero rimuovere la password %1?"},
+				{"questionRemovalTitle", "Rimuovendo \"%1\"..."},
+				{"questionRemoval", "Vuoi davvero rimuovere la password \"%1\"?"},
 			}
 		},
 	};
@@ -195,8 +195,8 @@ namespace res {
 				{"windowTitle", "Info - " + sharedLabels[Lang::en]["toolName"]},
 				{"pwnedTitle", "Have I Been Pwned?"},
 				{"pwnedLoading", ""},
-				{"pwnedEmail", "%1: seen in %2 breaches"},
-				{"pwnedPassword", "%1: seen %2 times before"},
+				{"pwnedEmail", "\"%1\": seen in %2 breaches"},
+				{"pwnedPassword", "\"%1\": seen %2 times before"},
 				{"helpTitle", "Help"},
 				{"helpText", "<html><head/><body><p>TO<br/>DO</p></body></html>"},
 				{"infoTitle", "Info"},
@@ -208,8 +208,8 @@ namespace res {
 				{"windowTitle", "Informazioni - " + sharedLabels[Lang::it]["toolName"]},
 				{"pwnedTitle", "Have I Been Pwned?"},
 				{"pwnedLoading", ""},
-				{"pwnedEmail", "%1: compare in %2 brecce"},
-				{"pwnedPassword", "%1: già vista %2 volte"},
+				{"pwnedEmail", "\"%1\": compare in %2 brecce"},
+				{"pwnedPassword", "\"%1\": già vista %2 volte"},
 				{"helpTitle", "Aiuto"},
 				{"helpText", "<html><head/><body><p>DA<br/>FARE</p></body></html>"},
 				{"infoTitle", "Informazioni"},
