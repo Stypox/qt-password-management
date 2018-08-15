@@ -1,9 +1,10 @@
-#include "win/passwordswindow.h"
 #include <QApplication>
 #include <QDebug>
 #include <QLoggingCategory>
 
-res::Config res::config{};
+#include "win/passwordswindow.h"
+
+#include "res/resources_init.cpp"
 
 int main(int argc, char *argv[]) {
 	QLoggingCategory::setFilterRules("*.debug=true\n"
@@ -17,10 +18,13 @@ int main(int argc, char *argv[]) {
 									 "qt.qpa.screen.debug=false\n"
 									 "qt.scaling.debug=false\n"
 									 );
+	res::darkTheme.load();
 	res::debug();
 
-	QApplication app {argc, argv};
-	PasswordsWindow passwordsWindow {};
+	QApplication app{argc, argv};
+	qDebug() << app.styleSheet();
+
+	PasswordsWindow passwordsWindow {app};
 	passwordsWindow.show();
 	passwordsWindow.loadData();
 

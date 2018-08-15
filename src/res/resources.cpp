@@ -1,5 +1,6 @@
 #include "resources.h"
 #include <QRegExp>
+#include <QApplication>
 #include <QDebug>
 
 namespace res {
@@ -50,16 +51,38 @@ namespace res {
 		save();
 	}
 
-	void debug() {
-		qDebug() << "Resources:";
-		qDebug() << "Mobile:   " << (OS_MOBILE ? "True" : "False");
-		qDebug() << "Data path:" << config.dataDir();
-		qDebug() << "Language: " << sharedLabels[config.language()]["langName"];
-	}
-
 	bool isEmailValid(QString email) {
 		static QRegExp emailValidator("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b", Qt::CaseInsensitive, QRegExp::RegExp);
 		return emailValidator.exactMatch(email);
+	}
+
+	void debug() {
+		qDebug() << "Resources:";
+		qDebug() << "Mobile:   " << OS_MOBILE;
+		qDebug() << "Data path:" << config.dataDir();
+		qDebug() << "Language: " << sharedLabels[config.language()]["langName"];
+		qDebug() << "DarkStyleSheet: " << (darkTheme.data().size() < 10 ? darkTheme : darkTheme.data().mid(0, 10) + "...");
+	}
+
+	StyleSheet::StyleSheet(const QString& filename) : m_filename{filename}, m_data{""} {}
+
+	void StyleSheet::load()	{
+		QFile styleSheetFile (m_filename);
+		if (styleSheetFile.exists()) {
+			styleSheetFile.open(QFile::ReadOnly | QFile::Text);
+			m_data = QString::fromUtf8(styleSheetFile.readAll());
+		}
+		else {
+			qDebug() << "Error loading style sheet " << m_filename << ": file doesn't exists";
+			m_data = "";
+		}
+	}
+
+	QString StyleSheet::data() const {
+		return m_data;
+	}
+	StyleSheet::operator QString() const {
+		return m_data;
 	}
 
 }

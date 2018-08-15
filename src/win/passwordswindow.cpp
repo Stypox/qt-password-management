@@ -11,8 +11,6 @@
 #include "settingsdialog.h"
 #include "infodialog.h"
 
-PasswordsWindow::PasswordsWindow(QWidget* parent) : //TODO WINDOW TITLE CHANGING
-	QMainWindow(parent), ui(new Ui::PasswordsWindow) {
 	ui->setupUi(this);
 	ui->newPassword->setFont(res::iconFont);
 	ui->info->setFont(res::iconFont);
@@ -23,7 +21,12 @@ PasswordsWindow::PasswordsWindow(QWidget* parent) : //TODO WINDOW TITLE CHANGING
 	connect(ui->newPassword, SIGNAL(clicked(bool)), this, SLOT(newPassword()));
 	connect(ui->info, SIGNAL(clicked(bool)), this, SLOT(info()));
 	connect(ui->settings, SIGNAL(clicked(bool)), this, SLOT(settings()));
-	connect(ui->logout, SIGNAL(clicked(bool)), this, SLOT(logout()));	
+	connect(ui->logout, SIGNAL(clicked(bool)), this, SLOT(logout()));
+
+	ui->passwordList->setDragDropMode(QAbstractItemView::InternalMove);
+	ui->passwordList->setDragEnabled(true);
+	updateLabels();
+	updateColors();
 }
 PasswordsWindow::~PasswordsWindow() {
 	m_settings.debug();
@@ -68,7 +71,10 @@ void PasswordsWindow::updateLabels() {
 	}
 }
 void PasswordsWindow::updateColors() {
-
+	if (m_settings.loaded && m_settings.darkThemeActive)
+		m_app.setStyleSheet(res::darkTheme);
+	else
+		m_app.setStyleSheet("");
 }
 void PasswordsWindow::updatePasswords() {
 	QVector<bool> widgetsOpened;
@@ -101,19 +107,19 @@ void PasswordsWindow::info() {
 	infoDialog.exec();
 }
 void PasswordsWindow::settings() {
-	SettingsDialog settingsDialog{m_settings, m_userData, m_passwords};
+	SettingsDialog settingsDialog{m_settings, m_userData, m_passwords, m_app};
 	settingsDialog.exec();
 	saveData();
 	updateLabels();
-	updateColors();
 	updatePasswords();
 }
 void PasswordsWindow::logout() {
 	saveData();
 
 	m_passwords.resize(0);
+	updateLabels();
+	updateColors();
 	updatePasswords();
-	ui->usernameViewer->clear();
 
 	loadData();
 }

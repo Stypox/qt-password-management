@@ -3,9 +3,11 @@
 #include <QInputDialog>
 #include "src/res/cryptography.h"
 
-SettingsDialog::SettingsDialog(Settings& settings, UserData& userData, const QVector<Password>& passwords, QWidget *parent) :
-	QDialog{parent}, ui{new Ui::SettingsDialog}, m_settings{settings},
-	m_userData{userData}, m_passwords{passwords} {
+SettingsDialog::SettingsDialog(Settings& settings, UserData& userData, const QVector<Password>& passwords, QApplication& app, QWidget *parent) :
+	QDialog{parent}, ui{new Ui::SettingsDialog}, m_app{app},
+	m_settings{settings}, m_userData{userData}, m_passwords{passwords},
+	m_settingsChanged{false}
+{
 	ui->setupUi(this);
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
@@ -22,12 +24,12 @@ SettingsDialog::SettingsDialog(Settings& settings, UserData& userData, const QVe
 	connect(ui->passwordEditor, SIGNAL(textChanged(QString)), this, SLOT(passwordChanged()));
 	connect(ui->reinsertPasswordEditor, SIGNAL(textChanged(QString)), this, SLOT(passwordChanged()));
 
-	connect(ui->languageEditor, SIGNAL(currentIndexChanged(int)), this, SLOT(disableBackup()));
-	connect(ui->darkTheme, SIGNAL(clicked(bool)), this, SLOT(disableBackup()));
-	connect(ui->removalConfirmationDialog, SIGNAL(clicked(bool)), this, SLOT(disableBackup()));
-	connect(ui->pwned, SIGNAL(clicked(bool)), this, SLOT(disableBackup()));
-	connect(ui->passwordEditor, SIGNAL(textChanged(QString)), this, SLOT(disableBackup()));
-	connect(ui->reinsertPasswordEditor, SIGNAL(textChanged(QString)), this, SLOT(disableBackup()));
+	connect(ui->languageEditor, SIGNAL(currentIndexChanged(int)), this, SLOT(settingsChanged()));
+	connect(ui->darkTheme, SIGNAL(clicked(bool)), this, SLOT(settingsChanged()));
+	connect(ui->removalConfirmationDialog, SIGNAL(clicked(bool)), this, SLOT(settingsChanged()));
+	connect(ui->pwned, SIGNAL(clicked(bool)), this, SLOT(settingsChanged()));
+	connect(ui->passwordEditor, SIGNAL(textChanged(QString)), this, SLOT(settingsChanged()));
+	connect(ui->reinsertPasswordEditor, SIGNAL(textChanged(QString)), this, SLOT(settingsChanged()));
 }
 SettingsDialog::~SettingsDialog() {
 	delete ui;
@@ -83,6 +85,8 @@ void SettingsDialog::ok() {
 		close();
 }
 bool SettingsDialog::apply() {
+	if (!m_settingsChanged)
+		return true;
 	QByteArray newPassword = ui->passwordEditor->text().toUtf8();
 	if (newPassword == ui->reinsertPasswordEditor->text()) {
 		if (!newPassword.isEmpty() && (newPassword.length() < res::passwordMinLen || newPassword.length() > res::passwordMaxLen))
@@ -101,7 +105,16 @@ bool SettingsDialog::apply() {
 	}
 
 	m_settings.language = static_cast<res::Lang>(ui->languageEditor->currentIndex());
+
+	bool oldDarkThemeActive{m_settings.darkThemeActive};
 	m_settings.darkThemeActive = ui->darkTheme->isChecked();
+	if (oldDarkThemeActive != m_settings.darkThemeActive) {
+		if (m_settings.darkThemeActive)
+			m_app.setStyleSheet(res::darkTheme);
+		else
+			m_app.setStyleSheet("");
+	}
+
 	m_settings.removalConfirmationDialogActive = ui->removalConfirmationDialog->isChecked();
 	m_settings.pwnedActive = ui->pwned->isChecked();
 	if (!newPassword.isEmpty())
@@ -113,8 +126,8 @@ bool SettingsDialog::apply() {
 	dataFile.close();
 
 	updateLabels();
+	m_settingsChanged = false;
 	ui->backup->setEnabled(true);
-
 	return true;
 }
 
@@ -131,6 +144,7 @@ void SettingsDialog::passwordChanged() {
 	else
 		setError("noError");
 }
-void SettingsDialog::disableBackup() {
+void SettingsDialog::settingsChanged() {
+	m_settingsChanged = true;
 	ui->backup->setEnabled(false);
 }

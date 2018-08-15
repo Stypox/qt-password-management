@@ -14,7 +14,7 @@ class SettingsDialog : public QDialog {
 	Q_OBJECT
 
 public:
-	explicit SettingsDialog(Settings& settings, UserData& userData, const QVector<Password>& passwords, QWidget *parent = nullptr);
+	explicit SettingsDialog(Settings& settings, UserData& userData, const QVector<Password>& passwords, QApplication& app, QWidget *parent = nullptr);
 	~SettingsDialog();
 
 private:
@@ -29,14 +29,17 @@ private slots:
 	bool apply();
 
 	void passwordChanged();
-	void disableBackup();
+	void settingsChanged();
 
 private:
 	Ui::SettingsDialog *ui;
+	QApplication& m_app;
 
 	Settings& m_settings;
 	UserData& m_userData;
 	const QVector<Password>& m_passwords;
+
+	bool m_settingsChanged;
 };
 
 #endif // SETTINGSDIALOG_H

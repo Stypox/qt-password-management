@@ -36,7 +36,8 @@ SOURCES += \
     src/res/password.cpp \
     src/simplecrypt/simplecrypt.cpp \
     src/res/cryptography.cpp \
-    src/win/infodialog.cpp
+    src/win/infodialog.cpp \
+    src/res/resources_init.cpp
 
 HEADERS += \
     src/win/passwordswindow.h \
@@ -57,6 +58,8 @@ FORMS += \
     src/win/addeditdialog.ui \
     src/win/settingsdialog.ui \
     src/win/infodialog.ui
+
+RESOURCES += resources/qdarkstyle/style.qrc
 
 CONFIG += mobility
 MOBILITY = 

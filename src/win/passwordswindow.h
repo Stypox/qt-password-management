@@ -16,7 +16,7 @@ class PasswordsWindow : public QMainWindow {
 	Q_OBJECT
 
 public:
-	explicit PasswordsWindow(QWidget *parent = nullptr);
+	explicit PasswordsWindow(QApplication& app, QWidget *parent = nullptr);
 	~PasswordsWindow();
 
 	void loadData();
@@ -42,6 +42,7 @@ private slots:
 
 private:
 	Ui::PasswordsWindow* ui;
+	QApplication& m_app;
 
 	Settings m_settings;
 	UserData m_userData;
