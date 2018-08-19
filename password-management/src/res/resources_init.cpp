@@ -156,6 +156,7 @@ namespace res {
 			Lang::en, {
 				{"windowTitle", "Settings - " + sharedLabels[Lang::en]["toolName"]},
 				{"languageTitle", "Language:"},
+				{"reorderingTitle", "Password reordering"},
 				{"darkThemeTitle", "Dark theme"},
 				{"removalConfirmationDialogTitle", "Removal confirmation dialog"},
 				{"pwnedTitle", "Have I Been Pwned"},
@@ -177,6 +178,7 @@ namespace res {
 			Lang::it, {
 				{"windowTitle", "Impostazioni - " + sharedLabels[Lang::it]["toolName"]},
 				{"languageTitle", "Lingua:"},
+				{"reorderingTitle", "Ordinazione password"},
 				{"darkThemeTitle", "Tema scuro"},
 				{"removalConfirmationDialogTitle", "Dialogo di conferma rimozione"},
 				{"pwnedTitle", "Have I Been Pwned"},

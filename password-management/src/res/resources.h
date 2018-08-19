@@ -92,10 +92,11 @@ namespace res {
 	//s stands for "settings" and p for "password"
 	namespace json {
 		constexpr const char * basicStructure {R"json({"settings": {}, "passwords": []})json"};
-		constexpr const char * settingsStructure {R"json({"language": %1, "darkThemeActive": %2, "removalConfirmationDialogActive": %3, "pwnedActive": %4})json"};
+		constexpr const char * settingsStructure {R"json({"language": %1, "reorderingActive": %2, "darkThemeActive": %3, "removalConfirmationDialogActive": %4, "pwnedActive": %5})json"};
 		constexpr const char * passwordStructure {R"json({"name": "%1", "password": "%2", "email": "%3", "username": "%4", "description": "%5"})json"};
 		constexpr const char * settings {"settings"};
 		constexpr const char * sLanguage {"language"};
+		constexpr const char * sReorderingActive {"reorderingActive"};
 		constexpr const char * sDarkThemeActive {"darkThemeActive"};
 		constexpr const char * sRemovalConfirmationDialogActive {"removalConfirmationDialogActive"};
 		constexpr const char * sPwnedActive {"pwnedActive"};

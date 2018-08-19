@@ -9,7 +9,7 @@ struct Settings {
 	Settings();
 
 	bool load(const QJsonObject& settingsJson);
-	bool load(const res::Lang& Language = res::Lang::def, const bool& DarkThemeActive = false, const bool& RemovalConfirmationDialogActive = true, const bool& PwnedActive = false);
+	bool load(const res::Lang& Language = res::Lang::def, const bool& ReorderingActive = false, const bool& DarkThemeActive = false, const bool& RemovalConfirmationDialogActive = true, const bool& PwnedActive = false);
 	QJsonValue toJson() const;
 	void reset();
 
@@ -18,6 +18,7 @@ struct Settings {
 	bool loaded;
 
 	res::Lang language;
+	bool reorderingActive;
 	bool darkThemeActive;
 	bool removalConfirmationDialogActive;
 	bool pwnedActive;

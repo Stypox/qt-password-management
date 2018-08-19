@@ -24,6 +24,8 @@ public:
 
 private:
 	void saveData();
+
+	void updateReorderingActive();
 	void updateLabels();
 	void updateColors();
 	void updatePasswords();

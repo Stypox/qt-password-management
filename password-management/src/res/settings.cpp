@@ -10,6 +10,11 @@ bool Settings::load(const QJsonObject& settingsJson) {
 	if (language > res::Lang::max || language < res::Lang::min)
 		language = res::Lang::def;
 
+	if (!settingsJson.contains(res::json::sReorderingActive) || !settingsJson[res::json::sReorderingActive].isBool())
+		reorderingActive = false;
+	else
+		reorderingActive = settingsJson[res::json::sReorderingActive].toBool();
+
 	if (!settingsJson.contains(res::json::sDarkThemeActive) || !settingsJson[res::json::sDarkThemeActive].isBool())
 		darkThemeActive = false;
 	else
@@ -28,11 +33,12 @@ bool Settings::load(const QJsonObject& settingsJson) {
 	loaded = true;
 	return true;
 }
-bool Settings::load(const res::Lang& Language, const bool& DarkThemeActive, const bool& RemovalConfirmationDialogActive, const bool& PwnedActive) {
+bool Settings::load(const res::Lang& Language, const bool& ReorderingActive, const bool& DarkThemeActive, const bool& RemovalConfirmationDialogActive, const bool& PwnedActive) {
 	language = Language;
 	if (language > res::Lang::max || language < res::Lang::min)
 		return false;
 
+	reorderingActive = ReorderingActive;
 	darkThemeActive = DarkThemeActive;
 	removalConfirmationDialogActive = RemovalConfirmationDialogActive;
 	pwnedActive = PwnedActive;
@@ -45,6 +51,7 @@ QJsonValue Settings::toJson() const {
 		return QJsonValue{};
 	QString settingsJson {res::json::settingsStructure};
 	settingsJson = settingsJson.arg(static_cast<int>(language))
+			.arg(reorderingActive ? "true" : "false")
 			.arg(darkThemeActive ? "true" : "false")
 			.arg(removalConfirmationDialogActive ? "true" : "false")
 			.arg(pwnedActive ? "true" : "false");
@@ -58,6 +65,7 @@ void Settings::reset() {
 void Settings::debug() const {
 	qDebug() << "Settings:    "
 			 << " language:" << static_cast<int>(language)
+			 << " reorderingActive:" << reorderingActive
 			 << " darkThemeActive:" << darkThemeActive
 			 << " removalConfirmationDialogActive:" << removalConfirmationDialogActive
 			 << " pwnedActive:" << pwnedActive

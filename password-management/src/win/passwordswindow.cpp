@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QPalette>
 #include <QDebug>
+#include <QScroller>
 #include "src/res/resources.h"
 #include "src/res/cryptography.h"
 #include "src/res/passwordwidget.h"
@@ -32,11 +33,15 @@ PasswordsWindow::PasswordsWindow(QApplication& app, QWidget* parent) :
 	setWindowIcon(res::windowIcon);
 
 	ui->setupUi(this);
+
 	ui->newPassword->setFont(res::iconFont);
 	ui->info->setFont(res::iconFont);
 	ui->usernameViewer->setText(res::passwordsLabels[res::config.language()]["usernameDefault"]);
 	ui->settings->setFont(res::iconFont);
 	ui->logout->setFont(res::iconFont);
+
+	ui->passwordList->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	ui->passwordList->setDragDropMode(QAbstractItemView::InternalMove);
 
 	connect(ui->newPassword, SIGNAL(clicked(bool)), this, SLOT(newPassword()));
 	connect(ui->info, SIGNAL(clicked(bool)), this, SLOT(info()));
@@ -44,8 +49,6 @@ PasswordsWindow::PasswordsWindow(QApplication& app, QWidget* parent) :
 	connect(ui->logout, SIGNAL(clicked(bool)), this, SLOT(logout()));
 	connect(ui->passwordList->model(), SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)), this, SLOT(movePasswords(QModelIndex, int, int, QModelIndex, int)));
 
-	ui->passwordList->setDragDropMode(QAbstractItemView::InternalMove);
-	ui->passwordList->setDragEnabled(true);
 	updateLabels();
 	updateColors();
 }
@@ -68,6 +71,7 @@ void PasswordsWindow::loadData() {
 	for (auto&& password : m_passwords)
 		password.debug();
 
+	updateReorderingActive();
 	updateLabels();
 	updateColors();
 	updatePasswords();
@@ -78,6 +82,21 @@ void PasswordsWindow::saveData() {
 		QFile dataFile{res::config.dataDir() + m_userData.username + res::dataFileExt};
 		dataFile.open(QIODevice::WriteOnly);
 		dataFile.write(res::encrypt(buildData(m_settings, m_passwords), m_userData.password));
+	}
+}
+
+void PasswordsWindow::updateReorderingActive() {
+	if (m_settings.reorderingActive) {
+		ui->passwordList->setDragEnabled(true);
+#if OS_MOBILE
+		QScroller::ungrabGesture(ui->passwordList->viewport());
+#endif
+	}
+	else {
+		ui->passwordList->setDragEnabled(false);
+#if OS_MOBILE
+		QScroller::grabGesture(ui->passwordList->viewport());
+#endif
 	}
 }
 void PasswordsWindow::updateLabels() {
@@ -131,6 +150,7 @@ void PasswordsWindow::settings() {
 	SettingsDialog settingsDialog{m_settings, m_userData, m_passwords, m_app};
 	settingsDialog.exec();
 	saveData();
+	updateReorderingActive();
 	updateLabels();
 	updatePasswords();
 }

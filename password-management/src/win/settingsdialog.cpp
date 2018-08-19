@@ -26,6 +26,7 @@ SettingsDialog::SettingsDialog(Settings& settings, UserData& userData, const QVe
 	connect(ui->reinsertPasswordEditor, SIGNAL(textChanged(QString)), this, SLOT(passwordChanged()));
 
 	connect(ui->languageEditor, SIGNAL(currentIndexChanged(int)), this, SLOT(settingsChanged()));
+	connect(ui->reordering, SIGNAL(clicked(bool)), this, SLOT(settingsChanged()));
 	connect(ui->darkTheme, SIGNAL(clicked(bool)), this, SLOT(settingsChanged()));
 	connect(ui->removalConfirmationDialog, SIGNAL(clicked(bool)), this, SLOT(settingsChanged()));
 	connect(ui->pwned, SIGNAL(clicked(bool)), this, SLOT(settingsChanged()));
@@ -50,6 +51,7 @@ void SettingsDialog::updateLabels() {
 	ui->languageTitle->setText(labels["languageTitle"]);
 	ui->darkTheme->setText(labels["darkThemeTitle"]);
 	ui->removalConfirmationDialog->setText(labels["removalConfirmationDialogTitle"]);
+	ui->reordering->setText(labels["reorderingTitle"]);
 	ui->pwned->setText(labels["pwnedTitle"]);
 	ui->passwordTitle->setText(labels["passwordTitle"]);
 	ui->reinsertPasswordTitle->setText(labels["reinsertPasswordTitle"]);
@@ -60,6 +62,7 @@ void SettingsDialog::updateLabels() {
 	ui->apply->setText(labels["apply"]);
 
 	ui->languageEditor->setCurrentIndex(static_cast<int>(m_settings.language));
+	ui->reordering->setChecked(m_settings.reorderingActive);
 	ui->darkTheme->setChecked(m_settings.darkThemeActive);
 	ui->removalConfirmationDialog->setChecked(m_settings.removalConfirmationDialogActive);
 	ui->pwned->setChecked(m_settings.pwnedActive);
@@ -106,6 +109,7 @@ bool SettingsDialog::apply() {
 	}
 
 	m_settings.language = static_cast<res::Lang>(ui->languageEditor->currentIndex());
+	m_settings.reorderingActive = ui->reordering->isChecked();
 
 	bool oldDarkThemeActive{m_settings.darkThemeActive};
 	m_settings.darkThemeActive = ui->darkTheme->isChecked();

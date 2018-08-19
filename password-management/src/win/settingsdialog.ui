@@ -106,6 +106,13 @@
      <item>
       <layout class="QVBoxLayout" name="checkBoxInnerLayout">
        <item>
+        <widget class="QCheckBox" name="reordering">
+         <property name="text">
+          <string>REORDERING</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="darkTheme">
          <property name="text">
           <string>DARK_THEME</string>
@@ -122,7 +129,7 @@
        <item>
         <widget class="QCheckBox" name="pwned">
          <property name="text">
-          <string>HAVE_I_BEEN_POWNED</string>
+          <string>HAVE_I_BEEN_PWNED</string>
          </property>
         </widget>
        </item>
