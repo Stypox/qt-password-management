@@ -12,25 +12,22 @@
 #include "infodialog.h"
 
 template <typename T>
-void move_range(size_t start, size_t length, size_t dst, QVector<T> & v)
-{
+void vecMove(size_t from, size_t to, QVector<T> & v) {
 	typename QVector<T>::iterator first, middle, last;
-	if (start < dst)
-	{
-		first  = v.begin() + start;
-		middle = first + length;
-		last   = v.begin() + dst;
+	if (from < to) {
+		first  = v.begin() + from;
+		middle = first + 1;
+		last   = v.begin() + to;
 	}
-	else
-	{
-		first  = v.begin() + dst;
-		middle = v.begin() + start;
-		last   = middle + length;
+	else {
+		first  = v.begin() + to;
+		middle = v.begin() + from;
+		last   = middle + 1;
 	}
 	std::rotate(first, middle, last);
 }
 
-PasswordsWindow::PasswordsWindow(QApplication& app, QWidget* parent) : //TODO WINDOW TITLE CHANGING
+PasswordsWindow::PasswordsWindow(QApplication& app, QWidget* parent) :
 	QMainWindow{parent}, ui{new Ui::PasswordsWindow}, m_app{app} {
 	setWindowIcon(res::windowIcon);
 
@@ -157,8 +154,8 @@ void PasswordsWindow::addPassword(Password password) {
 }
 
 void PasswordsWindow::movePasswords(const QModelIndex&, int from, int, const QModelIndex&, int to) {
-	move_range(static_cast<size_t>(from), 1, static_cast<size_t>(to), m_passwords);
-	move_range(static_cast<size_t>(from), 1, static_cast<size_t>(to), m_widgets);
+	vecMove(static_cast<size_t>(from), static_cast<size_t>(to), m_passwords);
+	vecMove(static_cast<size_t>(from), static_cast<size_t>(to), m_widgets);
 	for (int index = 0; index < m_widgets.size(); ++index) {
 		m_widgets[index]->setIndex(index);
 		m_widgets[index]->setPassword(&m_passwords[index], false);
