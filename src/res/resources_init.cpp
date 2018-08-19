@@ -5,7 +5,11 @@ namespace res {
 
 	Config config{};
 	const QFont iconFont {"Bitstream Charter", iconFontSize};
-	StyleSheet darkTheme{":/qdarkstyle/style.qss"};
+#if OS_MOBILE
+	StyleSheet darkTheme{":/qdarkstyle/mobile.qss"};
+#else
+	StyleSheet darkTheme{":/qdarkstyle/desktop.qss"};
+#endif
 
 	const QHash<Lang, QHash<QString, QString>> sharedLabels {
 		{
