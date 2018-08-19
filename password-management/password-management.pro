@@ -65,6 +65,6 @@ RESOURCES += resources/qdarkstyle/style.qrc \
 CONFIG += mobility
 MOBILITY =
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 DISTFILES += \
-    android-sources/AndroidManifest.xml
+    android/AndroidManifest.xml
