@@ -27,6 +27,7 @@ QWidget:item:selected {
 }
 
 QCheckBox {
+    spacing: 5px;
     outline: none;
     color: #eff0f1;
     margin-bottom: 2px;
@@ -38,6 +39,8 @@ QCheckBox:disabled {
 
 QCheckBox::indicator,
 QGroupBox::indicator {
+    width: 18px;
+    height: 18px;
 }
 
 QGroupBox::indicator {
