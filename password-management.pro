@@ -59,8 +59,12 @@ FORMS += \
     src/win/settingsdialog.ui \
     src/win/infodialog.ui
 
-RESOURCES += resources/qdarkstyle/style.qrc
+RESOURCES += resources/qdarkstyle/style.qrc \
+    resources/icons/icons.qrc
 
 CONFIG += mobility
-MOBILITY = 
+MOBILITY =
 
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
+DISTFILES += \
+    android-sources/AndroidManifest.xml

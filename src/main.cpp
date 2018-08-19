@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 	res::debug();
 
 	QApplication app{argc, argv};
-	qDebug() << app.styleSheet();
+	res::windowIcon = QIcon{":/icons/lock.png"};
 
 	PasswordsWindow passwordsWindow {app};
 	passwordsWindow.show();

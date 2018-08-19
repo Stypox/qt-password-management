@@ -32,6 +32,8 @@ void move_range(size_t start, size_t length, size_t dst, QVector<T> & v)
 
 PasswordsWindow::PasswordsWindow(QApplication& app, QWidget* parent) : //TODO WINDOW TITLE CHANGING
 	QMainWindow{parent}, ui{new Ui::PasswordsWindow}, m_app{app} {
+	setWindowIcon(res::windowIcon);
+
 	ui->setupUi(this);
 	ui->newPassword->setFont(res::iconFont);
 	ui->info->setFont(res::iconFont);

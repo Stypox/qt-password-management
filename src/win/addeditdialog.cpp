@@ -11,6 +11,7 @@ AddEditDialog::AddEditDialog(Password* password, Settings& settings, QWidget *pa
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
+	setWindowIcon(res::windowIcon);
 
 	updateLabels();
 	if (m_edit) {

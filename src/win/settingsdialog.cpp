@@ -12,6 +12,7 @@ SettingsDialog::SettingsDialog(Settings& settings, UserData& userData, const QVe
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
+	setWindowIcon(res::windowIcon);
 
 	updateLabels();
 

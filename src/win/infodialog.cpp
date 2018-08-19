@@ -11,6 +11,7 @@ InfoDialog::InfoDialog(const QVector<Password> passwords, const Settings& settin
 #if OS_MOBILE
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
+	setWindowIcon(res::windowIcon);
 
 	connect(ui->close, SIGNAL(clicked(bool)), this, SLOT(close()));
 

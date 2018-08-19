@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QHash>
 #include <QString>
+#include <QIcon>
 #include <memory>
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
@@ -16,6 +17,9 @@
 
 
 namespace res {
+	extern QIcon windowIcon;
+
+
 	constexpr int saltLen = 24,
 		keyLen = 32,
 		passwordMinLen = keyLen - saltLen,

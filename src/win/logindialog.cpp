@@ -14,6 +14,7 @@ LoginDialog::LoginDialog(Settings& settings, UserData& userData, QVector<Passwor
 	setWindowState((windowState() & ~(Qt::WindowMinimized | Qt::WindowFullScreen)) | Qt::WindowMaximized);
 #endif
 	setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
+	setWindowIcon(res::windowIcon);
 
 	m_settings.reset();
 	m_passwords.resize(0);

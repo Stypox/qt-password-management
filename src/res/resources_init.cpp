@@ -1,6 +1,8 @@
 #include "resources.h"
 
 namespace res {
+	QIcon windowIcon;
+
 	Config config{};
 	const QFont iconFont {"Bitstream Charter", iconFontSize};
 	StyleSheet darkTheme{":/qdarkstyle/style.qss"};
